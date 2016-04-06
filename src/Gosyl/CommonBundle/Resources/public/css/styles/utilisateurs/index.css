@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+.datatable {
+	color: #555;
+}
+
+table.datatable {
+	width: 99.9% !important;
+}
+
+div.dataTables_wrapper {
+	max-width: 98%;
+}
+
+.tableAction td {
+	width: 23px;
+	text-align: center !important;
+}
+
+.suppressionUtilisateur, .modifUtilisateur, .activeUtilisateur, .restaureUtilisateur, .desactiveUtilisateur {
+	cursor: pointer;
+}
+
+.ui-widget input, .ui-widget select {
+    font-size: 12.13333px !important;
+    font-weight:normal !important;
+}
+
+.ui-widget button {
+	font-size: 0.85em !important;
+}
+
+.ui-widget fieldset {
+	font-size: 16px;
+	font-family: serif;
+}
+
+.removed {
+	text-decoration: line-through;
+}
+
+.inactif {
+	color: #cccccc;
+}
+
+.ui-dialog[aria-describedby="dialogModifUtilisateur"] {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+}

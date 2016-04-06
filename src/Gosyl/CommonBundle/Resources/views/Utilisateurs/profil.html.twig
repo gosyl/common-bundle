@@ -1,0 +1,35 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% form_theme oFormModifUser 'form/fields.html.twig' %}
+
+{% block javascripts %}
+	{% javascripts
+		'@GosylCommonBundle/Resources/public/js/library/Datatables/media/js/jquery.dataTables.min.js'
+		'@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/index.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+	{% stylesheets
+		'bundles/gosylcommon/js/library/Datatables/media/css/jquery.dataTables_themeroller.min.css'
+		'bundles/gosylcommon/css/library/constellation/css/table.css'
+		'bundles/gosylcommon/css/styles/utilisateurs/index.css'
+		filter='cssrewrite' %}
+		<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block title %}Mon profil{% endblock %}
+{% block titre %}Mon profil{% endblock %}
+
+{% block content %}
+	{{ datatable(aResultsAllUsers, false, false, false) }}
+	{{ message('suppressionUtilisateur') }}
+	{{ message('restaurationUtilisateur') }}
+	{{ message('activationUtilisateur') }}
+	{{ message('desactivationUtilisateur') }}
+	{{ message(null, form_start(oFormModifUser) ~ form_widget(oFormModifUser) ~ form_end(oFormModifUser) , null, aModalFormModifUser) }}
+	{{ message('errorMsg', aDialogMsgErreurSuppr, null, aDialogOptionsErreur) }}
+	{{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
+{% endblock %}

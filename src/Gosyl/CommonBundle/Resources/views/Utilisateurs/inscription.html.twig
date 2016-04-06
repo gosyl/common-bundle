@@ -1,0 +1,26 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% form_theme oFormInscription 'form/fields.html.twig' %}
+
+{% block javascripts %}
+	{% javascripts '@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/inscription.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+	
+{% endblock %}
+
+{% block title %}Inscription{% endblock %}
+{% block titre %}Inscription{% endblock %}
+
+{% block content %}
+
+	{% if messageInscriptionOk == true %}
+		{{ message(msg) }}
+	{% else %}
+		{{ message(null, form_start(oFormInscription) ~ form_widget(oFormInscription) ~ form_end(oFormInscription), null, aDialogInscription) }}
+	{% endif %}
+
+{% endblock %}

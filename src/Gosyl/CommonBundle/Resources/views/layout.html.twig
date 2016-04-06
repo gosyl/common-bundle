@@ -1,0 +1,73 @@
+<!Doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Projet Fileserver - {% block title %}{% endblock %}</title>
+		
+		{% stylesheets
+			'bundles/gosylcommon/css/library/constellation/css/reset.css'
+			'bundles/gosylcommon/css/library/jquery-ui-1.11.4.custom/jquery-ui.structure.css'
+			'bundles/gosylcommon/css/library/jquery-ui-1.11.4.custom/jquery-ui.theme.css'
+			'bundles/gosylcommon/css/styles/style.css'
+			filter='cssrewrite' %}
+			<link rel="stylesheet" href="{{ asset_url }}" />	
+		{% endstylesheets %}
+				
+		{% block stylesheets %}{% endblock %}
+		
+		{% javascripts
+			'bundles/gosylcommon/js/library/jquery-2.1.3.min.js'
+			'bundles/gosylcommon/css/library/jquery-ui-1.11.4.custom/jquery-ui.min.js'
+			'bundles/gosylcommon/js/scripts/common.js' %}
+    		<script src="{{ asset_url }}"></script>
+		{% endjavascripts %}
+		
+		
+		<script type="text/javascript">
+		if(typeof Gosyl === 'undefined') {
+			Gosyl = {};
+        }
+
+		if(typeof Gosyl.Common === 'undefined' ) {
+			Gosyl.Common = {};
+		}
+        
+        Gosyl.Common.basePath = '/bundles/gosylcommon';
+        Gosyl.Common.rootPath = '{{ path('gosyl_fileserver_homepage') }}';
+        Gosyl.Common.commonPath = '{{ path('gosyl_fileserver_homepage') }}' + 'common/';
+        </script>
+		{% block jsGlobalVars %}{% endblock %}
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		<div id="ajaxLoading" class="hidden">
+			{% image 'bundles/gosylcommon/images/ajax-loader.gif' %}
+				<img src="{{ asset_url }}">
+			{% endimage %}
+		</div>
+		<header>
+			Projet Fileserver - {% block titre %}{% endblock %}
+			{# {% if is_granted('IS_ANTHENTICATED_REMEMBERED') %}
+				{{ 'layout.logged_in_as'|trans({'%username': app.user.username}, 'FOSUserBundle') }} |
+				<a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            {% else %}
+            	<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            {% endif %}#}
+		</header>
+		
+		<aside>
+			{{ menu(app.user, path('gosyl_fileserver_homepage')) }}
+		</aside>
+		
+		<article>
+			{% block content %}{% endblock %}
+		</article>
+		
+		<footer>
+			{{ "now" | date('d/m/Y H:i:s') }} GMT {{ "now" | date('P') }}
+		</footer>
+		{% block specialContent %}{% endblock %}
+	</body>
+</html>

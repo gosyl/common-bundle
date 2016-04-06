@@ -1,0 +1,27 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% block javascripts %}
+	{% javascripts '@GosylCommonBundle/Resources/public/js/scripts/connexion/login.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+	{% stylesheets 'bundles/gosylcommon/css/styles/connexion/form.css' filter='cssrewrite' %}
+		<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block title %}Connexion{% endblock %}
+{% block titre %}Connexion{% endblock %}
+
+{% block content %}
+	{% if error %}
+	    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+	
+	{% form_theme oFormLogin 'form/fields.html.twig' %}
+	
+	{{ message(null, form(oFormLogin), null, aDialogConnexion) }}
+	
+{% endblock %}
