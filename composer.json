@@ -1,5 +1,5 @@
 {
-	"name" : "gosyl/GosylCommonBundle",
+	"name" : "gosyl/common-bundle",
 	"type" : "symfony-bundle",
 	"description" : "Bundle commun aux projets Gosyl",
 	"license" : "MIT",
