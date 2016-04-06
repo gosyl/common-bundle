@@ -20,7 +20,7 @@
 	    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
 	
-	{% form_theme oFormLogin 'form/fields.html.twig' %}
+	{% form_theme oFormLogin 'GosylCommonBundle:form:fields.html.twig' %}
 	
 	{{ message(null, form(oFormLogin), null, aDialogConnexion) }}
 	
