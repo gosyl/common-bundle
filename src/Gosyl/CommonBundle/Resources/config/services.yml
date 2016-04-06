@@ -1,4 +1,48 @@
 services:
-#    gosyl_common.example:
-#        class: Gosyl\CommonBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    app.user_checker:
+        class: Gosyl\CommonBundle\Security\UserChecker
+        
+    gosyl.form.login:
+        class: Gosyl\CommonBundle\Form\LoginType
+        tags:
+            - { name: form.type, alias: gosyl_user_login }  
+    
+    twig.extension.datatable:
+        class: Gosyl\CommonBundle\Twig\Datatable
+        public: false
+        tags:
+            - { name: twig.extension }
+    
+    twig.extension.menu:
+        class: Gosyl\CommonBundle\Twig\Menu
+        public: false
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.message:
+        class: Gosyl\CommonBundle\Twig\Message
+        public: false
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.afficheForm:
+        class: Gosyl\CommonBundle\Twig\AfficheForm
+        public: false
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.fieldset:
+        class: Gosyl\CommonBundle\Twig\Fieldset
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    gosyl.form.registration:
+        class: Gosyl\CommonBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: gosyl_user_registration }
+            
+    gosyl.form.profile:
+        class: Gosyl\CommonBundle\Form\UserUpdateType
+        tags:
+            - { name: form.type, alias: gosyl_user_profile }
