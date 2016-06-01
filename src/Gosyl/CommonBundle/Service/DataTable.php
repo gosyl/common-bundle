@@ -77,7 +77,7 @@ class DataTable {
 	
 	/*-- Constructeur --*/
 	
-	public function __construct(EntityManager $oDoctrine, Container $oContainer) {
+	public function __construct(EntityManager $oDoctrine, Container $oContainer = null) {
 		$this->_oEntityManager = $oDoctrine;
 		$this->_oContainer = $oContainer;
 	}
