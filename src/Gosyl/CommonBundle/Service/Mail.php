@@ -1,8 +1,10 @@
 <?php
-namespace Gosyl\CommonBundle\Business;
+namespace Gosyl\CommonBundle\Service;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Gosyl\CommonBundle\Entity\ParamUsers;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Response;
 
 class Mail {
 	/**
@@ -16,9 +18,9 @@ class Mail {
 	private $_mailer;
 	
 	/**
-	 * @var Controller
+	 * @var Container
 	 */
-	private $_ctrl;
+	private $_oContainer;
 	
 	/**
 	 * @var string
@@ -36,12 +38,12 @@ class Mail {
 	 * @param UtilisateursController $ctrl
 	 */
 	
-	public function __construct(\Swift_Mailer $mailer, Controller $ctrl) {
+	public function __construct(\Swift_Mailer $mailer, Container $oContainer) {
 		$this->_swiftInstance = \Swift_Message::newInstance();
 		
 		$this->_mailer = $mailer;
 		
-		$this->_ctrl = $ctrl;
+		$this->_oContainer = $oContainer;
 	}
 	
 	/**
@@ -63,7 +65,7 @@ class Mail {
 		}
 		$this->_swiftInstance->addFrom($sMail, $sUsername)
 			->setBody(
-				$this->_ctrl->renderView(
+				$this->renderView(
 					'GosylCommonBundle:Mail:newUserAlert.html.twig',
 					array(
 						'newUsername' => $sUsername,
@@ -101,7 +103,7 @@ class Mail {
 		
 		$this->_swiftInstance->setTo($sEmail, $sUsername)
 			 ->setBody(
-			 	$this->_ctrl->renderView(
+			 	$this->renderView(
 			 		'GosylCommonBundle:Mail:userIsValid.html.twig',
 			 		array(
 			 			'username' => $sUsername
@@ -130,7 +132,7 @@ class Mail {
 	
 		$this->_swiftInstance->setTo($sEmail, $sUsername)
 		->setBody(
-				$this->_ctrl->renderView(
+				$this->renderView(
 						'GosylCommonBundle:Mail:userIsInvalid.html.twig',
 						array(
 				 			'username' => $sUsername
@@ -159,7 +161,7 @@ class Mail {
 	
 		$this->_swiftInstance->setTo($sEmail, $sUsername)
 		->setBody(
-				$this->_ctrl->renderView(
+				$this->renderView(
 						'GosylCommonBundle:Mail:userIsDeleted.html.twig',
 						array(
 							'username' => $sUsername
@@ -173,12 +175,33 @@ class Mail {
 	}
 	
 	/**
+     * Returns a rendered view.
+     *
+     * @param string $view       The view name
+     * @param array  $parameters An array of parameters to pass to the view
+     *
+     * @return string The rendered view
+     */
+    protected function renderView($view, array $parameters = array())
+    {
+        if ($this->_oContainer->has('templating')) {
+            return $this->_oContainer->get('templating')->render($view, $parameters);
+        }
+
+        if (!$this->_oContainer->has('twig')) {
+            throw new \LogicException('You can not use the "renderView" method if the Templating Component or the Twig Bundle are not available.');
+        }
+
+        return $this->_oContainer->get('twig')->render($view, $parameters);
+    }
+	
+	/**
 	 * Envoi du mail
 	 * 
 	 * @param void
 	 * @return int
 	 */
-	protected function _sendMail() {//var_dump($this->_swiftInstance->getTo());die;
+	protected function _sendMail() {
 		return $this->_mailer->send($this->_swiftInstance);
 	}
 }

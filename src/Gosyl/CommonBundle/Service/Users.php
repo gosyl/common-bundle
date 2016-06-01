@@ -1,10 +1,11 @@
 <?php
-namespace Gosyl\CommonBundle\Business;
+namespace Gosyl\CommonBundle\Service;
 
 use Gosyl\CommonBundle\Entity\ParamUsers;
 use Gosyl\CommonBundle\Constantes;
 use Gosyl\CommonBundle\Entity\ParamUsersRepository;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 
 class Users {
 	private $_sUrl = 'common/ajax/listerutilisateur';
@@ -196,18 +197,24 @@ class Users {
 	);
 	
 	/**
-	 * @var Registry
+	 * @var EntityManager
 	 */
 	protected $_oDoctrine;
+	
+	/**
+	 * @var Container $_oContainer
+	 */
+	protected $_oContainer;
 	
 	/**
 	 * @var ParamUsersRepository
 	 */
 	protected $_oParamUsersRepository;
 	
-	public function __construct($oDoctrine) {
+	public function __construct(EntityManager $oDoctrine, Container $oContainer) {
 		$this->_oDoctrine = $oDoctrine;
-		//$this->_oParamUsersRepository = new ParamUsersRepository($this->_oDoctrine, 'GosylCommonBundle:ParamUsers');
+		$this->_oContainer = $oContainer;
+		
 		$this->_oParamUsersRepository = $this->_oDoctrine->getRepository('GosylCommonBundle:ParamUsers');
 	}
 	

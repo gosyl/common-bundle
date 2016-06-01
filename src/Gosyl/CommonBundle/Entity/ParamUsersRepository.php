@@ -2,7 +2,7 @@
 namespace Gosyl\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Gosyl\CommonBundle\Business\DataTable;
+use Gosyl\CommonBundle\Service\DataTable;
 
 class ParamUsersRepository extends EntityRepository {
 	public function getAllForDataTable($aWhere = null, $aExtras = null) {

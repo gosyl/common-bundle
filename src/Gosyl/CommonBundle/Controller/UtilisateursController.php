@@ -4,12 +4,12 @@ namespace Gosyl\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Gosyl\CommonBundle\Business\Users;
+use Gosyl\CommonBundle\Service\Users;
 use Gosyl\CommonBundle\Constantes;
 use Gosyl\CommonBundle\Entity\ParamUsers;
 //use Gosyl\CommonBundle\Form\UserUpdateType;
 use Symfony\Component\HttpFoundation\Request;
-use Gosyl\CommonBundle\Business\Mail;
+use Gosyl\CommonBundle\Service\Mail;
 
 class UtilisateursController extends Controller {
 
@@ -18,7 +18,11 @@ class UtilisateursController extends Controller {
 	 */
 	public function indexAction() {
 		// Récupération des utilisateurs
-		$oUsers = new Users($this->getDoctrine());
+		
+		/**
+		 * @var Users $oUsers
+		 */
+		$oUsers = $this->get('gosyl.common.service.user');
 		$aResultsAllUsers = $oUsers->getAllUserForDataTable(); // echo "<pre>"; var_dump($aResultsAllUsers);die('</pre>');
 		                                                       
 		// Récupération des privilèges
@@ -57,7 +61,10 @@ class UtilisateursController extends Controller {
     	$oUser = $this->getUser();
     	
     	// Service Users
-    	$oSrvUsers = new Users($this->getDoctrine());
+    	/**
+    	 * @var Users $oSrvUsers
+    	 */
+    	$oSrvUsers = $this->get('gosyl.common.service.user');
     	
     	$aResultOneUser = $oSrvUsers->getOneUserForDataTable($oUser->getId());
     	
@@ -82,8 +89,15 @@ class UtilisateursController extends Controller {
 	 */
 	public function registerAction(Request $request) {
     	$user = new ParamUsers();
-    	$oSrvMail = new Mail($this->get('mailer'), $this);
-    	$oSrvUser = new Users($this->getDoctrine());
+    	/**
+    	 * @var Mail $oSrvMail
+    	 */
+    	$oSrvMail = $this->get('gosyl.common.service.mail');
+    	
+    	/**
+    	 * @var Users $oSrvUser
+    	 */
+    	$oSrvUser = $this->get('gosyl.common.service.user');
     	
     	$form = $this->createForm('Gosyl\CommonBundle\Form\RegistrationType', $user);
     	

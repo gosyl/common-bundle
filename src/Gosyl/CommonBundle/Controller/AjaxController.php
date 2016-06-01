@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Gosyl\CommonBundle\Entity\ParamUsers;
-use Gosyl\CommonBundle\Business\Users;
+use Gosyl\CommonBundle\Service\Users;
 use Symfony\Component\HttpFoundation\Request;
-use Gosyl\CommonBundle\Business\Mail;
+use Gosyl\CommonBundle\Service\Mail;
 use Gosyl\CommonBundle\Constantes;
 use Gosyl\CommonBundle\Form\UserUpdateType;
 
@@ -28,13 +28,18 @@ class AjaxController extends Controller {
 	 * @Route("/ajax/banutilisateur", name="gosyl_common_ajax_banutilisateur")
 	 */
 	public function banutilisateurAction(Request $request) {
-		$oDoctrine = $this->getDoctrine();
-		
-		$oSrvMail = new Mail($this->get('mailer'), $this);
+		/**
+		 * @var Mail $oSrvMail
+		 */
+		$oSrvMail = $this->get('gosyl.common.service.mail');
 		
 		$oUserAdmin = $this->getUser();
 		
-		$oUser = new Users($oDoctrine);
+		/**
+		 * @var Users $oUser
+		 */
+		$oUser = $this->get('gosyl.common.service.user');
+		
 		$iIdUser = $request->get('id');
 		$sMode = $request->get('mode');
 		
@@ -57,9 +62,10 @@ class AjaxController extends Controller {
 	public function listerutilisateurAction($id = null) {
 		$oActualUser = $this->getUser();
 		
-		$oDoctrine = $this->getDoctrine();
-		
-		$oUser = new Users($oDoctrine);
+		/**
+		 * @var Users $oUser
+		 */
+		$oUser = $this->get('gosyl.common.service.user');
 		$aResults = $oUser->listerUtilisateursForDataTable($oActualUser, $id);
 		
 		return $this->_sendJson($aResults);
@@ -71,7 +77,10 @@ class AjaxController extends Controller {
 	public function modifierutilisateurAction(Request $request) {
 		$aReturn = array();
 		
-		$oServUser = new Users($this->getDoctrine());
+		/**
+		 * @var Users $oServUser
+		 */
+		$oServUser = $this->get('gosyl.common.service.user');
 		
 		$aPrivileges = Constantes::$aPrivileges;
 		
@@ -124,7 +133,10 @@ class AjaxController extends Controller {
 	 * @Route("/ajax/restaurerutilisateur", name="gosyl_common_ajax_restaurerutilisateur")
 	 */
 	public function restaurerutilisateurAction(Request $request) {
-		$oUser = new Users($this->getDoctrine());
+		/**
+		 * @var Users $oUser
+		 */
+		$oUser = $this->get('gosyl.common.service.user');
 		$result = $oUser->restaurerUtilisateur($request->get('id'));
 		
 		return $this->_sendJson($result);
@@ -134,8 +146,16 @@ class AjaxController extends Controller {
 	 * @Route("/ajax/supprimerutilisateur", name="gosyl_common_ajax_supprimerutilisateur")
 	 */
 	public function supprimerutilisateurAction(Request $request) {
-		$oUser = new Users($this->getDoctrine());
-		$oSrvMail = new Mail($this->get('mailer'), $this);
+		/**
+		 * 
+		 * @var Users $oUser
+		 */
+		$oUser = $this->get('gosyl.common.service.user');
+		
+		/**
+		 * @var Mail $oSrvMail
+		 */
+		$oSrvMail = $this->get('gosyl.common.service.mail');
 		
 		$oUserAdmin = $this->getUser();
 		

@@ -1,12 +1,25 @@
 services:
+    # Sécurité
     app.user_checker:
         class: Gosyl\CommonBundle\Security\UserChecker
-        
+    
+    #Formulaires
     gosyl.form.login:
         class: Gosyl\CommonBundle\Form\LoginType
         tags:
             - { name: form.type, alias: gosyl_user_login }  
     
+    gosyl.form.registration:
+        class: Gosyl\CommonBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: gosyl_user_registration }
+            
+    gosyl.form.profile:
+        class: Gosyl\CommonBundle\Form\UserUpdateType
+        tags:
+            - { name: form.type, alias: gosyl_user_profile }
+    
+    # Extensions Twig
     twig.extension.datatable:
         class: Gosyl\CommonBundle\Twig\Datatable
         public: false
@@ -37,12 +50,15 @@ services:
         tags:
             - { name: twig.extension }
 
-    gosyl.form.registration:
-        class: Gosyl\CommonBundle\Form\RegistrationType
-        tags:
-            - { name: form.type, alias: gosyl_user_registration }
-            
-    gosyl.form.profile:
-        class: Gosyl\CommonBundle\Form\UserUpdateType
-        tags:
-            - { name: form.type, alias: gosyl_user_profile }
+    # Services
+    gosyl.common.service.datatable:
+        class: Gosyl\CommonBundle\Service\DataTable
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+        
+    gosyl.common.service.mail:
+        class: Gosyl\CommonBundle\Service\Mail
+        arguments: ["@swiftmailer.mailer.default", "@doctrine.orm.entity_manager", "@service_container"]
+        
+    gosyl.common.service.user:
+        class: Gosyl\CommonBundle\Service\User
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]

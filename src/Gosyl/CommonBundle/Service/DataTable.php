@@ -1,7 +1,9 @@
 <?php
-namespace Gosyl\CommonBundle\Business;
+namespace Gosyl\CommonBundle\Service;
 
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 
 class DataTable {
 	/*-- Attributs --*/
@@ -10,6 +12,9 @@ class DataTable {
 	
 	// Protégés
 	
+	/**
+	 * @var QueryBuilder $oSelect
+	 */
 	protected $oSelect;
 	
 	protected $aParams;
@@ -17,6 +22,16 @@ class DataTable {
 	protected $aChamps;
 	
 	protected $nChamps;
+	
+	/**
+	 * @var EntityManager $_oEntityManager
+	 */
+	protected $_oEntityManager;
+	
+	/**
+	 * @var Container $_oContainer
+	 */
+	protected $_oContainer;
 	
 	// Publics
 	
@@ -61,6 +76,11 @@ class DataTable {
 	}
 	
 	/*-- Constructeur --*/
+	
+	public function __construct(EntityManager $oDoctrine, Container $oContainer) {
+		$this->_oEntityManager = $oDoctrine;
+		$this->_oContainer = $oContainer;
+	}
 	
 	/*-- Méthodes --*/
 	
