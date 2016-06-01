@@ -60,5 +60,5 @@ services:
         arguments: ["@swiftmailer.mailer.default", "@doctrine.orm.entity_manager", "@service_container"]
         
     gosyl.common.service.user:
-        class: Gosyl\CommonBundle\Service\User
+        class: Gosyl\CommonBundle\Service\Users
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]
