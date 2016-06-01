@@ -5,7 +5,6 @@
 	"license" : "MIT",
 	"require" : {
 		"php" : ">=5.5.9",
-		"symfony/framework-standard-edition" : ">=3.0.4",
 		"symfony/assetic-bundle" : "^2.3"
 	},
 	"minimum-stability" : "dev",
