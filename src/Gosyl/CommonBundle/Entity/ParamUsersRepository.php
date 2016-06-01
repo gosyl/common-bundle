@@ -6,7 +6,7 @@ use Gosyl\CommonBundle\Service\DataTable;
 
 class ParamUsersRepository extends EntityRepository {
 	public function getAllForDataTable($aWhere = null, $aExtras = null) {
-		$oDataTable = new DataTable($this->getEntityManager);
+		$oDataTable = new DataTable($this->getEntityManager());
 		
 		$aRequest = array(
 				0 => 'U.id',
