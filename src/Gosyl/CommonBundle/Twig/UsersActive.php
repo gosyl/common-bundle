@@ -45,11 +45,11 @@ class UsersActive extends \Twig_Extension {
 				 * @var ParamUsers $oUser
 				 */
 				$i = 1;
-				foreach ($aUsersActive as $oUser) {
-					if($oUser->getRoles()[0] == Constantes::ROLE_ADMIN) {
-						$sContenu .= '<span class="userAdmin">' . $oUser->getUsername() . '</span>';
+				foreach ($aUsersActive as $aUser) {
+					if($aUser['roles'][0] == Constantes::ROLE_ADMIN) {
+						$sContenu .= '<span class="userAdmin">' . $aUser['username'] . '</span>';
 					} else {
-						$sContenu .= '<span>' . $oUser->getUsername() . '</span>';
+						$sContenu .= '<span>' . $aUser['username'] . '</span>';
 					}
 					if($i < $iNbUtilisateurs) {
 						$sContenu .= ', ';
