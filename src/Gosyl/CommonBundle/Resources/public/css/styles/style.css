@@ -216,3 +216,7 @@ form .error {
 	top: calc(100vh / 2);
 	position: absolute;
 }
+
+.userAdmin {
+	color: orange;
+}
