@@ -54,7 +54,7 @@ class ActivityListener {
 			$user = $this->_oTokenStorage->getToken()->getUser();
 			
 			// Nous vérifions que l'utilisateur est bien du bon type pour ne pas appeler getLastActivity() sur un objet autre objet User
-			if($user instanceof ParamUsers && $user->isActiveNow()) {
+			if($user instanceof ParamUsers && !($user->isActiveNow())) {
 				$user->setLastActivityAt(new \DateTime('now'));
 				$this->_oEntityManager->flush($user);
 			}
