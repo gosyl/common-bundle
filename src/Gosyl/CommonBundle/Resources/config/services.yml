@@ -57,7 +57,7 @@ services:
         tags:
             - { name: twig.extension }
             
-    twig.extension.users_active:
+    twig.extension.usersActive:
         class: Gosyl\CommonBundle\Twig\UsersActive
         public: false
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]

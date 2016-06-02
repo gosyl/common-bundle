@@ -65,7 +65,7 @@ class UsersActive extends \Twig_Extension {
 	}
 	
 	public function getName() {
-		return 'twig.extension.users_active';
+		return 'twig.extension.usersActive';
 	}
 	
 	
