@@ -192,4 +192,21 @@ class ParamUsersRepository extends EntityRepository {
 		
 		return $iReturn;
 	}
+	
+	/**
+	 * Retourne les utilisateurs actifs
+	 * 
+	 * @return array
+	 */
+	public function getActive() {
+		$oDelay = new \DateTime('now');
+		$oDelay->setTimestamp(strtotime('2 minutes ago'));
+		
+		$oQb = $this->createQueryBuilder('U');
+		$oQb->select()
+			->where($oQb->expr()->gt('U.lastActivityAt', ':delay'))
+			->setParameter(':delay', $oDelay);
+		
+        return $oQb->getQuery()->getArrayResult();
+	}
 }

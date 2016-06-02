@@ -1,4 +1,11 @@
 services:
+    # Listeners
+    gosyl.event.activity_listener:
+        class: Gosyl\CommonBundle\Event\ActivityListener
+        arguments: ["@doctrine.orm.entity_manager", "@service_container", "@security.token_storage"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
+    
     # Sécurité
     app.user_checker:
         class: Gosyl\CommonBundle\Security\UserChecker

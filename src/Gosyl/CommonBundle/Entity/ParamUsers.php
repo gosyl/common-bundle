@@ -101,6 +101,13 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      */
     private $dateSuppression;
     
+    /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="LAST_ACTIVITY_AT", type="datetime", nullable=true)
+     */
+    private $lastActivityAt;
+    
     private $salt;
 
     public function __construct() {
@@ -465,4 +472,30 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
 	public function setOldRole($oldRole) {
 		// nothing to do...
 	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getLastActivityAt() {
+		return $this->lastActivityAt;
+	}
+
+	/**
+	 *
+	 * @param \DateTime $lastActivityAt
+	 */
+	public function setLastActivityAt(\DateTime $lastActivityAt) {
+		$this->lastActivityAt = $lastActivityAt;
+		return $this;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isActiveNow() {
+		$delay = new \DateTime("2 minutes ago");
+		
+		return ($this->getLastActivityAt() > $delay);
+	}
+	
 }
