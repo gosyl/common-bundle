@@ -217,6 +217,11 @@ form .error {
 	position: absolute;
 }
 
+#utilisateursConnectes {
+	font-size: 0.85em;
+	max-width: 90%;
+}
+
 .userAdmin {
 	color: orange;
 }
