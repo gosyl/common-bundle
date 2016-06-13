@@ -20,8 +20,10 @@
 	{% endstylesheets %}
 {% endblock %}
 
-{% block title %}Gestion des utilisateurs{% endblock %}
-{% block titre %}Gestion des utilisateurs{% endblock %}
+{% block title %}
+	{{ parent() }}
+	Gestion des utilisateurs
+{% endblock %}
 
 {% block content %}
 	{{ datatable(aResultsAllUsers, false, false, false) }}

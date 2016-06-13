@@ -12,8 +12,10 @@
 	
 {% endblock %}
 
-{% block title %}Inscription{% endblock %}
-{% block titre %}Inscription{% endblock %}
+{% block title %}
+	{{ parent() }}
+	Inscription
+{% endblock %}
 
 {% block content %}
 

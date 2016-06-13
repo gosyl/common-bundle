@@ -20,8 +20,10 @@
 	{% endstylesheets %}
 {% endblock %}
 
-{% block title %}Mon profil{% endblock %}
-{% block titre %}Mon profil{% endblock %}
+{% block title %}
+	{{ parent() }}
+	Mon profil
+{% endblock %}
 
 {% block content %}
 	{{ datatable(aResultsAllUsers, false, false, false) }}

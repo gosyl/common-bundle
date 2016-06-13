@@ -12,8 +12,10 @@
 	{% endstylesheets %}
 {% endblock %}
 
-{% block title %}Connexion{% endblock %}
-{% block titre %}Connexion{% endblock %}
+{% block title %}
+	{{ parent() }}
+	Connexion
+{% endblock %}
 
 {% block content %}
 	{% if error %}
