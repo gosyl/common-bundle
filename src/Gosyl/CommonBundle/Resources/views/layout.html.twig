@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>Projet Fileserver - {% block title %}{% endblock %}</title>
+		<title>{% block title %}{% endblock %}</title>
 		
 		{% stylesheets
 			'bundles/gosylcommon/css/library/constellation/css/reset.css'
@@ -33,8 +33,8 @@
 		}
         
         Gosyl.Common.basePath = '/bundles/gosylcommon';
-        Gosyl.Common.rootPath = '{{ path('gosyl_fileserver_homepage') }}';
-        Gosyl.Common.commonPath = '{{ path('gosyl_fileserver_homepage') }}' + 'common/';
+        Gosyl.Common.rootPath = '{{ path('gosyl_homepage') }}';
+        Gosyl.Common.commonPath = '{{ path('gosyl_homepage') }}' + 'common/';
         </script>
 		{% block jsGlobalVars %}{% endblock %}
 		{% block javascripts %}{% endblock %}
@@ -46,7 +46,7 @@
 			{% endimage %}
 		</div>
 		<header>
-			Projet Fileserver - {% block titre %}{% endblock %}
+			{{ block('title') }}
 			{# {% if is_granted('IS_ANTHENTICATED_REMEMBERED') %}
 				{{ 'layout.logged_in_as'|trans({'%username': app.user.username}, 'FOSUserBundle') }} |
 				<a href="{{ path('fos_user_security_logout') }}">
@@ -58,7 +58,7 @@
 		</header>
 		
 		<aside>
-			{{ menu(app.user, path('gosyl_fileserver_homepage')) }}
+			{{ menu(app.user, path('gosyl_homepage')) }}
 		</aside>
 		
 		<article>
