@@ -5,16 +5,16 @@ use Gosyl\CommonBundle\Entity\ParamUsers;
 use Gosyl\FileserverBundle\Constantes;
 
 class Menu extends \Twig_Extension {
-	private $isAuthenticatedAnonymously = 0;
+	protected $isAuthenticatedAnonymously = 0;
 	
 	/**
 	 * @var ParamUsers
 	 */
-	private $ident;
+	protected $ident;
 	
-	private $role = array();
+	protected $role = array();
 	
-	private $_aButton = array(
+	protected $_aButton = array(
 		0 => array(
 			'Connexion' => null,
 			'Inscription' => null,
@@ -36,12 +36,9 @@ class Menu extends \Twig_Extension {
 		),
 	);
 	
-	private $_aBundles = array(
-		'Gosyl\\FileserverBundle',
-		//Add your bundle here
-	);
+	protected $_aBundles;
 	
-	private $_basePath = '';
+	protected $_basePath = '';
 	
 	public function getFunctions() {
 		return array(
