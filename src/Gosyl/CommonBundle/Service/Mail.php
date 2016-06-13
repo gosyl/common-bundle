@@ -2,7 +2,6 @@
 namespace Gosyl\CommonBundle\Service;
 
 use Gosyl\CommonBundle\Entity\ParamUsers;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 
