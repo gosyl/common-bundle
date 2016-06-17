@@ -242,7 +242,7 @@ class Datatable extends \Twig_Extension {
 	protected function _ajouteResultats() {
 		$xResultats = $this->xResultat;
 		
-		$sReturn = '<script type="text/javascript">var '.$this->sNameDatas.' = "'.$xResultats.'";</script>';
+		$sReturn = '<script type="text/javascript">var '.$this->sNameDatas.' = \''.$xResultats.'\';</script>';
 		
 		return $sReturn;
 	}
