@@ -333,7 +333,7 @@ class Datatable extends \Twig_Extension {
                 $sOption .= $value ? 'true' : 'false';
             }
         }
-        $sOption .= ',';
+        //$sOption .= ',';
         return $sOption;
 	}
 	
