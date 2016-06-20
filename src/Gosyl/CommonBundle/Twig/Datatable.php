@@ -298,50 +298,43 @@ class Datatable extends \Twig_Extension {
 	}
 	
 	protected function _getOptions($aTabOptions = null) {
-		$sOptions = '';
-		$bFirst = true;
-		
 		if(is_null($aTabOptions)) {
-			$aTabOptions = $this->aTableOptions;
-		}
-		
-		foreach ($aTabOptions as $sKey => $xValue) {
-			if($bFirst) {
-				$bFirst = false;
-			} else {
-				$sOptions .= ', ';
-			}
-			
-			if(is_string($xValue)) {
-				$sOptions .= '"' . $sKey . '": "' . addslashes($xValue) . '"';
-			} elseif(is_int($xValue)) {
-				$sOptions .= '"' . $sKey . '": ' . $xValue;
-			} elseif(is_bool($xValue)) {
-				if($xValue) {
-					$sOptions .= '"' . $sKey . '": true';
-				} else {
-					$sOptions .= '"' . $sKey . '": false';
-				}
-			} elseif (is_array($xValue) && !array_key_exists('function', $xValue)) {
-				$sOptions .= '"' . $sKey . '": { ' . $this->_getOptions($xValue) . ' }';
-			} elseif(is_array($xValue) && array_key_exists('function', $xValue)) {
-				switch ($sKey) {
-					case 'initComplete':
-						$sOptions .= '"' .$sKey  . '": ';
-						$sOptions .= 'function(settings, json) ';
-						$sOptions .= $xValue['function'];
-						break;
-						
-					case 'createdRow':
-						$sOptions .= '"' . $sKey . '": ';
-						$sOptions .= 'function(row, data, dataIndex) ';
-						$sOptions .= $xValue['function'];
-						break;
-				}
-			}
-		}
-		
-		return $sOptions;
+            $aTabOption = $this->aTabOptions;
+        }
+        $bFirst = true;
+        $sOption = '';
+        foreach($aTabOptions as $skey => $value) {
+            if($bFirst) {
+                $bFirst = false;
+            } else {
+                $sOption .= ', ' . "\n";
+            }
+            if(is_string($value)) {
+                $sOption .= '"' . $skey . '": "' . addslashes($value) .'"';
+            } elseif(is_int($value)) {
+                $sOption .= '"' . $skey . '": ' . $value;
+            } elseif(is_array($value) && !($skey == 'createdRow' || $skey == 'headerCallback' || $skey == 'order' || $skey == 'columnDefs' || $skey == 'initComplete')) {
+                $sOption .= '"'.$skey.'": {' . "\n" . $this->addOptions($value) . '}';
+            } elseif(is_array($value) && $skey == 'createdRow') {
+                $sOption .= '"' . $skey . '": ' . $value['createdRow'];
+            } elseif(is_array($value) && $skey == 'order') {
+                $sOption .= '"' . $skey . '": ' . $value['order'];
+            } elseif(is_array($value) && $skey == 'headerCallback') {
+                $sOption .= '"' . $skey . '": ' . $value['headerCallback'];
+            } elseif(is_array($value) && $skey == 'initComplete') {
+                $sOption .= '"' . $skey . '": ' . $value['initComplete'];
+            } else if(is_array($value) && $skey == 'columnDefs') {
+                $sOption .= '"' . $skey .'": ';
+                foreach ($value as $val) {
+                   $sOption .= json_encode($val);
+                }
+            }elseif(is_bool($value)) {
+                $sOption .= '"'.$skey.'": ';
+                $sOption .= $value ? 'true' : 'false';
+            }
+        }
+        $sOption .= ',';
+        return $sOption;
 	}
 	
 	protected function _setData($aData) {
