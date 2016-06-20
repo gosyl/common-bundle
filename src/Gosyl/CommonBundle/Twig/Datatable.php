@@ -299,7 +299,7 @@ class Datatable extends \Twig_Extension {
 	
 	protected function _getOptions($aTabOptions = null) {
 		if(is_null($aTabOptions)) {
-            $aTabOption = $this->aTabOptions;
+            $aTabOptions = $this->aTabOptions;
         }
         $bFirst = true;
         $sOption = '';
