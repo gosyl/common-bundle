@@ -74,14 +74,14 @@ class Users {
 			'pagingType' => 'full_numbers',
 			'dom' => '<"H"RCTlf>t<"F"rpi>',
 			'initComplete' => array(
-					'function' => '{
+					'function' => 'function(settings, json) {
 		                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).selector;
 		                //decomposeJson(json);
 		        		Gosyl.Common.GestionUtilisateur.init();
 		            }'
 			),
 			'createdRow' => array(
-					'function' => '{
+					'function' => 'function(row, data, dataIndex) {
 		                $(row).data(\'user\', data);
 						$(row).attr(\'id\', \'data_\' + data.id);
 		            }',
@@ -100,14 +100,14 @@ class Users {
 			//'pagingType' => 'full_numbers',
 			'dom' => '<"H"RCTlf>t<"F"rpi>',
 			'initComplete' => array(
-					'function' => '{
+					'function' => 'function(settings, json) {
 		                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).selector;
 		                //decomposeJson(json);
 		        		Gosyl.Common.GestionUtilisateur.init();
 		            }'
 			),
 			'createdRow' => array(
-					'function' => '{
+					'function' => 'function(row, data, dataIndex) {
 		                $(row).data(\'user\', data);
 						$(row).attr(\'id\', \'data_\' + data.id);
 		            }',

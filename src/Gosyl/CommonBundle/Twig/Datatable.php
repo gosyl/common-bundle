@@ -313,21 +313,11 @@ class Datatable extends \Twig_Extension {
                 $sOption .= '"' . $skey . '": "' . addslashes($value) .'"';
             } elseif(is_int($value)) {
                 $sOption .= '"' . $skey . '": ' . $value;
-            } elseif(is_array($value) && !($skey == 'createdRow' || $skey == 'headerCallback' || $skey == 'order' || $skey == 'columnDefs' || $skey == 'initComplete')) {
-                $sOption .= '"'.$skey.'": {' . "\n" . $this->addOptions($value) . '}';
-            } elseif(is_array($value) && $skey == 'createdRow') {
-                $sOption .= '"' . $skey . '": ' . $value['createdRow'];
-            } elseif(is_array($value) && $skey == 'order') {
-                $sOption .= '"' . $skey . '": ' . $value['order'];
-            } elseif(is_array($value) && $skey == 'headerCallback') {
-                $sOption .= '"' . $skey . '": ' . $value['headerCallback'];
-            } elseif(is_array($value) && $skey == 'initComplete') {
-                $sOption .= '"' . $skey . '": ' . $value['initComplete'];
-            } else if(is_array($value) && $skey == 'columnDefs') {
-                $sOption .= '"' . $skey .'": ';
-                foreach ($value as $val) {
-                   $sOption .= json_encode($val);
-                }
+            } elseif(is_array($value) && !(array_key_exists('function', $value))) {
+                $sOption .= '"'.$skey.'": {' . "\n" . $this->_getOptions($value) . '}';
+            } elseif(is_array($value) && (array_key_exists('function', $value) || array_key_exists('render', $value))) {
+                $sOption .= '"' . $skey . '": ';
+                $sOption .= $value[array_keys($value)[0]];
             }elseif(is_bool($value)) {
                 $sOption .= '"'.$skey.'": ';
                 $sOption .= $value ? 'true' : 'false';
