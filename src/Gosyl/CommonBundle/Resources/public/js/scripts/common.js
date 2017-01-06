@@ -77,7 +77,9 @@ Gosyl.Common = (function() {
 	**********************************************/
 	
 	function getFrDateTime(date) {
-		var date = date || new Date();
+	    if(typeof date == 'undefined') {
+	        date = new Date();
+        }
 		
 		var jour = date.getUTCDate();
 		var mois = date.getMonth();
@@ -102,7 +104,7 @@ Gosyl.Common = (function() {
 	
 	/**
 	 * Retourne l'objet Date avec en parèmetre un dateTime prédéfini (jj/mm/aaaa hh:MM:ss) 
-	 * @param stting sDateHeure
+	 * @param sDateHeure string
 	 * @returns {Date}
 	 */
 	function decomposeDate(sDateHeure) {
@@ -129,7 +131,7 @@ Gosyl.Common = (function() {
 	
 	/**
 	 * Met en majuscule la première lettre de chaque mot d'une chaîne de caractères
-	 * @param string str
+	 * @param str
 	 * @returns string
 	 */
 	function STR_ucwords(str) {
@@ -145,7 +147,7 @@ Gosyl.Common = (function() {
 			autoSize: true,
 			onClose: function(dateText, instance) {
 				$(this).datepicker('setDate', dateText);
-			},
+			}
 		});
 	}
 	
@@ -176,12 +178,10 @@ Gosyl.Common = (function() {
 				var paddingBottom = parseInt(oElem.css('padding-bottom'));
 				var borderBottomWidth = parseInt(oElem.css('border-bottom-width'));
 				
-				var dim = {
-					x: borderLeftWidth + paddingLeft + width + paddingRight + borderRightWidth,
-					y: borderTopWidth + paddingTop + height + paddingBottom + borderBottomWidth
-				}
-				
-				return dim;
+				return {
+                    x: borderLeftWidth + paddingLeft + width + paddingRight + borderRightWidth,
+                    y: borderTopWidth + paddingTop + height + paddingBottom + borderBottomWidth
+                };
 			}
 		}
 		var dim = {};
@@ -211,6 +211,8 @@ Gosyl.Common = (function() {
 				contenu += '<br />';
 			}
 		});
+
+		return contenu;
 	}
 	
 	return {
