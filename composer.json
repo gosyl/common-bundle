@@ -10,7 +10,7 @@
 	"minimum-stability" : "dev",
 	"autoload" : {
 		"psr-4" : {
-			"Gosyl\\CommonBundle\\" : "src/Gosyl/CommonBundle"
+			"Gosyl\\CommonBundle\\" : ""
 		}
 	}
 }
