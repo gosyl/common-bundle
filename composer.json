@@ -1,16 +1,16 @@
 {
-	"name" : "gosyl/common-bundle",
-	"type" : "symfony-bundle",
-	"description" : "Bundle commun aux projets Gosyl",
-	"license" : "MIT",
-	"require" : {
-		"php" : ">=5.5.9",
-		"symfony/assetic-bundle" : "^2.3"
-	},
-	"minimum-stability" : "dev",
-	"autoload" : {
-		"psr-4" : {
-			"Gosyl\\CommonBundle\\" : ""
-		}
-	}
+  "name": "gosyl/common-bundle",
+  "type": "symfony-bundle",
+  "description": "Bundle commun aux projets Gosyl",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/assetic-bundle": "^2.3"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Gosyl\\CommonBundle\\": ""
+    }
+  }
 }
