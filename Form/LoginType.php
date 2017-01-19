@@ -2,6 +2,7 @@
 namespace Gosyl\CommonBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
@@ -10,10 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class LoginType extends AbstractType {
-	private $_csrfToken;
+    //private $_csrfToken;
+    private $_builder;
 	private $_lastUsername;	
 	private $action;
 	
@@ -35,8 +36,8 @@ class LoginType extends AbstractType {
         		->add('_password', PasswordType::class, array('label' => 'Mot de passe'))
         		->add('_remember_me', CheckboxType::class,array('label' => 'Se souvenir de moi', 'required' => false))
         		->add('sendFormLogin', SubmitType::class, array('label' => 'Connexion'))
-        		->add('btnInscription', ButtonType::class, array('label' => 'Inscription', 'attr' => array('onclick' => 'javascript: btnInscriptionFromLogin();')))
-        		->add('btnClose', ButtonType::class, array('label' => 'Fermer', 'attr' => array('id' => 'btnClose')))
+            //->add('btnInscription', ButtonType::class, array('label' => 'Inscription', 'attr' => array('onclick' => 'javascript: btnInscriptionFromLogin();')))
+            ->add('btnCancel', ResetType::class, array('label' => 'Annuler', 'attr' => array('id' => 'btnCancel')))
         ;
 		
         $this->_builder = $builder;

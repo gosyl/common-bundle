@@ -2,6 +2,25 @@
 namespace Gosyl\CommonBundle;
 
 class Constantes {
+    const PANEL_DEFAULT = 0;
+    const PANEL_PRIMARY = 1;
+    const PANEL_SUCCESS = 2;
+    const PANEL_INFO = 3;
+    const PANEL_WARNING = 4;
+    const PANEL_DANGER = 5;
+
+    /**
+     * @var array
+     */
+    public static $aTypePanel = array(
+        self::PANEL_DEFAULT => 'panel_default',
+        self::PANEL_PRIMARY => 'panel_primary',
+        self::PANEL_SUCCESS => 'panel_success',
+        self::PANEL_INFO => 'panel_info',
+        self::PANEL_WARNING => 'panel_warning',
+        self::PANEL_DANGER => 'panel_danger',
+    );
+
 	/**
 	 * Boîtes de dialogue connexion et inscription
 	 */

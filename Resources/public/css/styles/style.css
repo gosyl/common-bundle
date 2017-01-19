@@ -2,9 +2,11 @@
 
 body {
     background-color: #1a1d26;
-    color: white;
 }
 
+header {
+    color: white;
+}
 
 @media (min-width: 768px) {
     .navbar {
@@ -18,4 +20,43 @@ body {
 
 .dropdown-menu > li > a {
     color: white;
+}
+
+/* Panel */
+.panel {
+    background-color: #dcdcdc;
+}
+
+.panel-primary, .panel-default {
+    border: 2px solid #046380;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #c4d7ed;
+    border-color: #046380;
+    color: black;
+}
+
+.panel-default > .panel-heading {
+    border-color: #046380;
+}
+
+.panel-footer {
+    border-color: #046380;
+}
+
+/* Formulaires */
+.formError {
+    color: red;
+}
+
+.form-control {
+    border-color: #046380;
+    background-color: #fff5ef;
+}
+
+/* Boutons */
+.btn-default {
+    border: 1px solid #046380;
+    color: #046380;
 }

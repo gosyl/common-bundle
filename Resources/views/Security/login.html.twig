@@ -18,12 +18,20 @@
 {% endblock %}
 
 {% block content %}
-	{% if error %}
-	    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-	{% endif %}
-	
-	{% form_theme oFormLogin 'GosylCommonBundle:form:fields.html.twig' %}
-	
-	{{ message(null, form(oFormLogin), null, aDialogConnexion) }}
-	
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Connexion',
+    contenu: include('GosylCommonBundle:form:form_login.html.twig', {form: oFormLogin}),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-xs-12 col-md-4 center-block">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
 {% endblock %}

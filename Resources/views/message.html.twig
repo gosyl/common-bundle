@@ -1,0 +1,35 @@
+{% set PANEL_DEFAULT = 0 %}
+{% set PANEL_PRIMARY = 1 %}
+{% set PANEL_SUCCESS = 2 %}
+{% set PANEL_INFO = 3 %}
+{% set PANEL_WARNING = 4 %}
+{% set PANEL_DANGER = 5 %}
+
+{% set aTypePanel = {
+(PANEL_DEFAULT): 'panel-default',
+(PANEL_PRIMARY): 'panel-primary',
+(PANEL_SUCCESS): 'panel-success',
+(PANEL_INFO): 'panel-info',
+(PANEL_WARNING): 'panel-warning',
+(PANEL_DANGER): 'panel-danger'
+} %}
+
+<div class="panel {{ aTypePanel[typePanel] }}">
+    {% if showHeader %}
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ title }}</h3>
+        </div>
+    {% endif %}
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                {{ contenu | raw }}
+            </div>
+        </div>
+    </div>
+    {% if showFooter %}
+        <div class="panel-footer">
+            Panel footer
+        </div>
+    {% endif %}
+</div>

@@ -50,6 +50,12 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    twig.extension.modal:
+            class: Gosyl\CommonBundle\Twig\Modal
+            public: false
+            tags:
+                - { name: twig.extension }
             
     twig.extension.afficheForm:
         class: Gosyl\CommonBundle\Twig\AfficheForm

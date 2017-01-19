@@ -10,7 +10,7 @@ if(typeof Gosyl.Common === 'undefined') {
 }
 
 Gosyl.Common.Login = (function($) {
-	var optionDialogConnexion = {
+    /*var optionDialogConnexion = {
 			autoOpen: true,
 			resizable: false,
 			width: "auto",
@@ -35,10 +35,10 @@ Gosyl.Common.Login = (function($) {
 				$(".ui-dialog .ui-dialog-titlebar .ui-dialog-title").css("display", "block");
 				$(".ui-dialog .ui-dialog-titlebar .ui-dialog-title").parent().css("display", "block");
 	        }, 
-		};
+     };*/
 	
 	function init() {
-		$('#dialogConnexion').dialog(optionDialogConnexion);
+        /*$('#dialogConnexion').dialog(optionDialogConnexion);
 		
 		while(!$('#dialogConnexion').dialog('isOpen')) {
 			$('#btnConnexionUser').trigger('click');
@@ -52,7 +52,8 @@ Gosyl.Common.Login = (function($) {
 			e.preventDefault();
 			
 			$('#dialogConnexion').dialog('close');
-		});
+         });*/
+        $('#myModal').modal('show');
 	}
 	
 	return {
