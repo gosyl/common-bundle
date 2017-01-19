@@ -13,6 +13,6 @@ class Administration extends AbstractMenu {
     protected $aRoles = array('ROLE_ADMIN');
     protected $aSubMenu = array(
         'Profil',
-        //'Utilisateurs'
+        'Utilisateurs'
     );
 }

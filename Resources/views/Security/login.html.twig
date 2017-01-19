@@ -1,12 +1,14 @@
 {% extends "GosylCommonBundle::layout.html.twig" %}
 
 {% block javascripts %}
+    {{ parent() }}
 	{% javascripts '@GosylCommonBundle/Resources/public/js/scripts/connexion/login.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
 	{% stylesheets 'bundles/gosylcommon/css/styles/connexion/form.css' filter='cssrewrite' %}
 		<link rel="stylesheet" href="{{ asset_url }}" />
 	{% endstylesheets %}

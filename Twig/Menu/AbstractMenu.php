@@ -180,6 +180,18 @@ abstract class AbstractMenu {
             } else {
                 return '';
             }
+        } elseif ($this->bVerifRole && is_null($this->aRoles)) {
+            if ($this->autorization->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+                if (is_array($this->aSubMenu)) {
+                    return $this->_getSousMenu();
+                } elseif (!is_array($this->aSubMenu)) {
+                    return $this->_getLien($bIsSeparator);
+                } else {
+                    return '';
+                }
+            } else {
+                return '';
+            }
         } elseif(!$this->bVerifRole) {
             if(is_array($this->aSubMenu)) {
                 return $this->_getSousMenu();

@@ -22,8 +22,10 @@ class Menu extends \Twig_Extension
      */
     protected $aMenu = array(
         'Connexion',
+        'Inscription',
         'Administration',
-        'Deconnexion'
+        'Deconnexion',
+
     );
 
     /**

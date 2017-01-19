@@ -3,13 +3,20 @@
 {% form_theme oFormInscription 'GosylCommonBundle:form:fields.html.twig' %}
 
 {% block javascripts %}
-	{% javascripts '@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/inscription.js' %}
+    {{ parent() }}
+    {% javascripts
+    '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/js/bootstrap-datepicker.min.js'
+    '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/locales/bootstrap-datepicker.fr.min.js'
+    '@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/inscription.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
 {% block stylesheets %}
-	
+    {{ parent() }}
+    {% stylesheets '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/css/bootstrap-datepicker3.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 {% endblock %}
 
 {% block title %}
@@ -18,11 +25,27 @@
 {% endblock %}
 
 {% block content %}
-
-	{% if messageInscriptionOk == true %}
-		{{ message(msg) }}
-	{% else %}
-		{{ message(null, form_start(oFormInscription) ~ form_widget(oFormInscription) ~ form_end(oFormInscription), null, aDialogInscription) }}
-	{% endif %}
-
+    {#
+    {% if messageInscriptionOk == true %}
+        {{ message(msg) }}
+    {% else %}
+        {{ message(null, form_start(oFormInscription) ~ form_widget(oFormInscription) ~ form_end(oFormInscription), null, aDialogInscription) }}
+    {% endif %}
+    #}
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Inscription',
+    contenu: include('GosylCommonBundle:form:form_inscription.html.twig', {form: oFormInscription}),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-xs-12 col-md-4 center-block">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
 {% endblock %}

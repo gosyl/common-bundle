@@ -56,7 +56,21 @@ header {
 }
 
 /* Boutons */
-.btn-default {
+.btn-default, .btn-default:hover, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default, .btn-default:focus, .btn-default.focus {
+    color: #046380 !important;
+    border: 1px solid #046380 !important;
+}
+
+/* Datepicker */
+.datepicker.dropdown-menu {
+    background-color: #dcdcdc;
     border: 1px solid #046380;
-    color: #046380;
+}
+
+.datepicker > .datepicker-days > table > thead > tr:nth-child(2) {
+    border-bottom: 1px solid #046380;
+}
+
+.datepicker > .datepicker-days > table > tfoot {
+    border-top: 1px solid #046380;
 }
