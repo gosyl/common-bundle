@@ -181,7 +181,7 @@ abstract class AbstractMenu {
                 return '';
             }
         } elseif ($this->bVerifRole && is_null($this->aRoles)) {
-            if ($this->autorization->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+            if ($this->autorization->isGranted('IS_AUTHENTICATED_ANONYMOUSLY') && !$this->autorization->isGranted('IS_AUTHENTICATED_FULLY')) {
                 if (is_array($this->aSubMenu)) {
                     return $this->_getSousMenu();
                 } elseif (!is_array($this->aSubMenu)) {
