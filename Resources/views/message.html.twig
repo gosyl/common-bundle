@@ -21,11 +21,7 @@
         </div>
     {% endif %}
     <div class="panel-body">
-        <div class="container-fluid">
-            <div class="row">
-                {{ contenu | raw }}
-            </div>
-        </div>
+        {{ contenu | raw }}
     </div>
     {% if showFooter %}
         <div class="panel-footer">

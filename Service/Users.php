@@ -53,21 +53,20 @@ class Users {
 			'action' => array(
 					'title' => 'action',
 					'data' => 'null',
-					'width' => '109px',
 					"orderable" => false,
 					'render' => array(
 							'render' => 'function(oObject) {
 			                    var contenu = Gosyl.Common.GestionUtilisateur.gereUtilisateur(oObject);
 			                    return contenu;
 			                }',
-					),
+                    )
 			),
 	);
 	
 	private $_allUserOptions = array(
-			'jQueryUI' => true,
+        //'jQueryUI' => true,
 			'paging' => true,
-			'autoWidth' => true,
+        'autoWidth' => false,
 			'stateSave' => true,
 			'retrieve' => true,
 			'pageLength' => 10,
@@ -89,13 +88,16 @@ class Users {
 	);
 	
 	private $_OneUserOptions = array(
-			'jQueryUI' => true,
+        //'jQueryUI' => true,
+        'responsive' => true,
 			'paging' => false,
-			'autoWidth' => true,
+        'autoWidth' => false,
 			'stateSave' => true,
 			'retrieve' => true,
 			'searching' => false,
 			'info' => false,
+        'sort' => false,
+        'lengthChange' => false,
 			//'pageLength' => 10,
 			//'pagingType' => 'full_numbers',
 			'dom' => '<"H"RCTlf>t<"F"rpi>',
@@ -226,13 +228,15 @@ class Users {
 		
 		return $aResult;
 	}
-	
-	public function getOneUserForDataTable($idUser) {
+
+    public function getOneUserForDataTable($idUser, $sRoot)
+    {
 		$aResult = array();
 		$aResult['options'] = array_merge($this->_OneUserOptions, Constantes::$aDataTableLanguage);
 		$aResult['cols'] = $this->_cols;
 		unset($aResult['cols']['roles']);
-		$aResult['results'] = $this->_sUrl . '/' . $idUser;
+        //$aUser = $this->listerUtilisateursForDataTable($this->_oContainer->get('security.token_storage')->getToken()->getUser(), $idUser);
+        $aResult['results'] = $sRoot . $this->_sUrl . '/' . $idUser;
 		
 		return $aResult;
 	}

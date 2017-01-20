@@ -5,12 +5,19 @@
   "license": "MIT",
   "require": {
     "php": ">=5.5.9",
-    "symfony/assetic-bundle": "^2.3"
+    "symfony/assetic-bundle": "^2.3",
+    "gosyl/datatablebundle": "1.*"
   },
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "Gosyl\\CommonBundle\\": ""
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "ssh://git@gosyl.dtdns.net:9022/gosyl/DataTableBundle.git"
+    }
+  ]
 }

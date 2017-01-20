@@ -282,12 +282,12 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 			$('#data_' + data.id).addClass('inactif')
 		}
 
-		var contenu = $('<table>');
+        var contenu = $('<table style="width: 100%">');
 		contenu.addClass('tableAction');
 		var rangee = $('<tr>');
 		
 		if(bIsActualUser) {
-			rangee.css('background-color', '#ffb7b7');
+            //rangee.css('background-color', '#ffb7b7');
 		}
 		
 		var colonne1 = $('<td>');
@@ -300,7 +300,7 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 		if (!bSupprime) {
 			colonne2.html('<img class="modifUtilisateur" data-id="' + data.id + '" src="' + Gosyl.Common.basePath + '/css/library/constellation/images/icons/fugue/pencil.png" title="Modifier" />');
 		} else {
-			colonne2.addClass('removed').html('&nbsp;&nbsp;');
+            colonne2.addClass('removed').html('&nbsp;&nbssssp;');
 		}
 		var colonne3 = $('<td>');
 		var sActiveOuNon = 'active';
@@ -374,3 +374,7 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 	};
 
 })(jQuery);
+
+$(document).ready(function () {
+    Gosyl.Common.GestionUtilisateur.init();
+});

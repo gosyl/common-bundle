@@ -32,11 +32,11 @@ services:
             - { name: form.type, alias: gosyl_user_profile }
     
     # Extensions Twig
-    twig.extension.datatable:
-        class: Gosyl\CommonBundle\Twig\Datatable
-        public: false
-        tags:
-            - { name: twig.extension }
+    #twig.extension.datatable:
+    #    class: Gosyl\CommonBundle\Twig\Datatable
+    #    public: false
+    #    tags:
+    #        - { name: twig.extension }
     
     twig.extension.menu:
         class: Gosyl\CommonBundle\Twig\Menu

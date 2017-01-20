@@ -3,20 +3,24 @@
 {% form_theme oFormModifUser 'GosylCommonBundle:form:fields.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 	{% javascripts
-		'@GosylCommonBundle/Resources/public/js/library/Datatables/media/js/jquery.dataTables.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/datatables.js'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
 		'@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/index.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
 	{% stylesheets
-		'bundles/gosylcommon/js/library/Datatables/media/css/jquery.dataTables_themeroller.min.css'
-		'bundles/gosylcommon/css/library/constellation/css/table.css'
+    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.css'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/css/responsive.bootstrap.min.css'
 		'bundles/gosylcommon/css/styles/utilisateurs/index.css'
 		filter='cssrewrite' %}
-		<link rel="stylesheet" href="{{ asset_url }}" />
+    <link rel="stylesheet" href="{{ asset_url }}"/>
 	{% endstylesheets %}
 {% endblock %}
 
@@ -26,12 +30,29 @@
 {% endblock %}
 
 {% block content %}
-	{{ datatable(aResultsAllUsers, false, false, false) }}
-	{{ message('suppressionUtilisateur') }}
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Mon profil',
+    contenu: datatable(aResultsAllUsers, false, false, false, 'table table-striped table-bordered dataTable no-footer dt-responsive'),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-xs-12 col-md-6 center-block">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+    {{ message('suppressionUtilisateur') }}
 	{{ message('restaurationUtilisateur') }}
 	{{ message('activationUtilisateur') }}
 	{{ message('desactivationUtilisateur') }}
 	{{ message(null, form_start(oFormModifUser) ~ form_widget(oFormModifUser) ~ form_end(oFormModifUser) , null, aModalFormModifUser) }}
 	{{ message('errorMsg', aDialogMsgErreurSuppr, null, aDialogOptionsErreur) }}
 	{{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
+    #}
 {% endblock %}

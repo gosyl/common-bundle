@@ -137,9 +137,9 @@ class Datatable extends \Twig_Extension {
 							"lengthMenu": [[5 ,10, 25, 50, -1], [5, 10, 25, 50, "All"]],';
 							if(count($this->aCols) > 15) {
 								$sJs .= '
-										"scrollX": "100%",
-										"scrollY": "520",
-										"scrollCollapse": true,
+										//"scrollX": "100%",
+										//"scrollY": "520",
+										//"scrollCollapse": true,
 										';
 							}
 							
@@ -354,8 +354,9 @@ class Datatable extends \Twig_Extension {
 				new \Twig_SimpleFunction('datatable', array($this, 'datatableFunction'), array('is_safe' => array('html')))
 		);
 	}
-	
-	public function datatableFunction($aData = array(), $bColVis = false, $bTableTools = false, $bFixedHeader = false, $sClassTable = 'table datatable', $nColReference = 0) {
+
+    public function datatableFunction($aData = array(), $bColVis = false, $bTableTools = false, $bFixedHeader = false, $sClassTable = 'table table-striped table-bordered dt-responsive nowrap', $nColReference = 0)
+    {
 		$this->nColRef = $nColReference;
 		$this->bColVis = $bColVis;
 		$this->bTableTools = $bTableTools;

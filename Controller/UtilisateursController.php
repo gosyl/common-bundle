@@ -65,8 +65,7 @@ class UtilisateursController extends Controller {
     	 * @var Users $oSrvUsers
     	 */
     	$oSrvUsers = $this->get('gosyl.common.service.user');
-    	
-    	$aResultOneUser = $oSrvUsers->getOneUserForDataTable($oUser->getId());
+        $aResultOneUser = $oSrvUsers->getOneUserForDataTable($oUser->getId(), $this->generateUrl('gosyl_homepage'));
     	
     	// Récupération des privilèges
     	$this->aPrivileges = Constantes::$aPrivileges;

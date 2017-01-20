@@ -4,13 +4,14 @@
 	color: #555;
 }
 
-table.datatable {
+/*table.datatable {
 	width: 99.9% !important;
-}
+}*/
 
+/*
 div.dataTables_wrapper {
 	max-width: 98%;
-}
+}*/
 
 .tableAction td {
 	width: 23px;
