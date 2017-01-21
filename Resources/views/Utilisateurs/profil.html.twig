@@ -34,19 +34,17 @@
     typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
     showHeader: true,
     title: 'Mon profil',
-    contenu: datatable(aResultsAllUsers, false, false, false, 'table table-striped table-bordered dataTable no-footer dt-responsive'),
+    contenu: datatable(aResultsAllUsers),
     showFooter: false
     } %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-xs-12 col-md-6 center-block">
+            <div class="col-xs-12 col-lg-offset-2 col-lg-8">
                 {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
             </div>
-            <div class="col-md-3"></div>
         </div>
     </div>
-
+    {#
     {{ message('suppressionUtilisateur') }}
 	{{ message('restaurationUtilisateur') }}
 	{{ message('activationUtilisateur') }}
