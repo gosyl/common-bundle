@@ -45,6 +45,20 @@
             </div>
         </div>
     </div>
+    {# Popup du formulaire #}
+    {% set aFormModifOptions = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalModifUser'
+    }
+    } %}
+
+    {{ modal('Modifier un profil', include('GosylCommonBundle:form:form_modifUser.html.twig', {form: oFormModifUser}), aFormModifOptions) }}
+
     {#
     {{ message('suppressionUtilisateur') }}
     {{ message('restaurationUtilisateur') }}

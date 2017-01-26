@@ -66,7 +66,9 @@ Gosyl.Common.GestionUtilisateur = (function($) {
             $.each($('input[type="password"]'), function (i, elem) {
                 $(elem).prop('disabled', true).prop('readonly', true);
             });
-		}
+        } else {
+            $('#formRoles').hide();
+        }
 
         // Evènement sur le bouton "Fermer"
         $modal.on('hidden.bs.modal', function (e) {
@@ -74,8 +76,9 @@ Gosyl.Common.GestionUtilisateur = (function($) {
             Gosyl.Common.GestionUtilisateur.disableActivateFormElement(dataUser, false);
             $('div.error').remove();
             $.each($('input[type="password"]'), function (i, elem) {
-                $(elem).prop('disabled', false);
+                $(elem).prop('disabled', false).prop('readonly', false);
             });
+            $('#formRoles').show();
         });
 
         // Evènement lors de l'envoie du formulaire
@@ -327,29 +330,28 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 
 		if (data.roles != 'ROLE_ADMIN' && !bSupprime) {
             var colonne1 = $('<div class="col-xs-4">');
-			colonne1.html('<img class="suppressionUtilisateur" data-id="' + data.id + '" src="' + Gosyl.Common.basePath + '/css/library/constellation/images/icons/fugue/cross-circle.png" title="Supprimer" />');
+            colonne1.html('<span class="suppressionUtilisateur fa fa-trash" data-id="' + data.id + '" title="Supprimer" style="font-size: 1.5em;"></span>');
 		}
 
         if (!bSupprime) {
             var colonne2 = $('<div class="col-xs-4">');
-			colonne2.html('<img class="modifUtilisateur" data-id="' + data.id + '" src="' + Gosyl.Common.basePath + '/css/library/constellation/images/icons/fugue/pencil.png" title="Modifier" />');
+            colonne2.html('<span class="modifUtilisateur fa fa-pencil" data-id="' + data.id + '" title="Modifier" style="font-size: 1.5em;"></span>');
 		}
 
         if (data.roles != 'ROLE_ADMIN' && !bIsActualUser) {
             var colonne3 = $('<div class="col-xs-4">');
             var sActiveOuNon = 'active';
-            var img = '';
+            var color = 'black';
 			if (!bSupprime) {
 				if (bActif) {
 					sActiveOuNon = 'desactive';
-					img = 'user';
 				} else {
 					sActiveOuNon = 'active';
-					img = 'user-red';
+                    color = 'red';
 				}
-				colonne3.html('<img src="' + Gosyl.Common.basePath + '/css/library/constellation/images/icons/fugue/' + img + '.png"  data-id="' + data.id + '" class="' + sActiveOuNon + 'Utilisateur" class="with-tip" title="' + Gosyl.Common.STR_ucwords(sActiveOuNon) + 'r l\'utilisateur">');
+                colonne3.html('<span data-id="' + data.id + '" class="' + sActiveOuNon + 'Utilisateur fa fa-user with-tip" title="' + Gosyl.Common.STR_ucwords(sActiveOuNon) + 'r l\'utilisateur" style="color: ' + color + '; font-size: 1.5em;"></span>');
 			} else {
-				colonne3.html('<img src="' + Gosyl.Common.basePath + '/css/library/constellation/images/icons/fugue/user-black.png" class="restaureUtilisateur" data-id="' + data.id + '" class="with-tip" title="Restaurer l\'utilisateur">');
+                colonne3.html('<span class="restaureUtilisateur fa fa-user-o with-tip" data-id="' + data.id + '" title="Restaurer l\'utilisateur" style="font-size: 1.5em;"></span>');
 			}
 		}
 

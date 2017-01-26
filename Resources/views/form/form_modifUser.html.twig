@@ -19,6 +19,13 @@
                 {{- form_widget(form.children.password) -}}
                 <div class="formError">{{ form_errors(form.children.password) }}</div>
             </div>
+            {% if form.children.role is defined %}
+                <div class="col-xs-12 form-group" id="formRoles">
+                    {{- form_label(form.children.roles) -}}
+                    {{- form_widget(form.children.roles) -}}
+                    <div class="formError">{{ form_errors(form.children.roles) }}</div>
+                </div>
+            {% endif %}
             <div class="col-xs-12 form-group">
                 {{- form_label(form.children.name) -}}
                 {{- form_widget(form.children.name) -}}

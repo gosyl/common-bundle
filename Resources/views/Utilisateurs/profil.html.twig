@@ -58,6 +58,8 @@
     } %}
 
     {{ modal('Modifier mon profil', include('GosylCommonBundle:form:form_modifUser.html.twig', {form: oFormModifUser}), aFormModifOptions) }}
+
+    {# Popup "Pas de modif..." #}
     {% set aModalNoChange = {
     options: {
     js: {
@@ -69,7 +71,6 @@
     }
     } %}
 
-    {# Popup "Pas de modif..." #}
     {{ modal('Modifier mon profil', 'Aucune modification effectuée', aModalNoChange) }}
     {% set aModalError = {
     options: {

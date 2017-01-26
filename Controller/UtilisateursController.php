@@ -40,12 +40,8 @@ class UtilisateursController extends Controller {
 		
 		// Envoie des données à la vue
 		return $this->render('GosylCommonBundle:Utilisateurs:index.html.twig', array(
-				'aResultsAllUsers' => $aResultsAllUsers, 
-				'aModalFormModifUser' => Users::$aModalFormModifUser, 
-				'aDialogMsgErreurSuppr' => Users::$aDialogMsgErreurSuppr, 
-				'aDialogMsgErreurRest' => Users::$aDialogMsgErreurRest, 
-				'aDialogOptionsErreur' => Users::$aDialogOptionsErreur, 
-				'oFormModifUser' => $oFormModifUser->createView() 
+				'aResultsAllUsers' => $aResultsAllUsers,
+            'oFormModifUser' => $oFormModifUser->createView()
 		));
 	}
 
@@ -75,10 +71,6 @@ class UtilisateursController extends Controller {
     	
     	return $this->render('GosylCommonBundle:Utilisateurs:profil.html.twig', array(
     		'aResultsAllUsers' => $aResultOneUser,
-    		'aModalFormModifUser' => Users::$aModalFormModifUser,
-    		'aDialogMsgErreurSuppr' => Users::$aDialogMsgErreurSuppr,
-    		'aDialogMsgErreurRest' => Users::$aDialogMsgErreurRest,
-    		'aDialogOptionsErreur' => Users::$aDialogOptionsErreur,
     		'oFormModifUser' => $oFormModifUser->createView()
     	));
 	}

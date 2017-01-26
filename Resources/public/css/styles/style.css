@@ -95,3 +95,28 @@ header {
 .table-bordered > thead > tr > th {
     border: 1px solid #a1a1a1;
 }
+
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+    background-color: #c4d7ed;
+    border-color: #046380;
+    color: #046380;
+    cursor: default;
+    z-index: 3;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover {
+    background-color: #fff;
+    border-color: #046380;
+    color: #046380;
+    cursor: not-allowed;
+}

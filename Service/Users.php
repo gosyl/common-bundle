@@ -64,16 +64,19 @@ class Users {
 	
 	private $_allUserOptions = array(
         //'jQueryUI' => true,
+        'responsive' => true,
         'paging' => true,
         'autoWidth' => false,
         'stateSave' => true,
-        'retrieve' => true,
+        'retrieve' => false,
+        'searching' => false,
         'pageLength' => 10,
         'pagingType' => 'full_numbers',
         'dom' => '<"H"RCTlf>t<"F"rpi>',
         'initComplete' => array(
             'function' => 'function(settings, json) {
                 Gosyl.Common.GestionUtilisateur.dataTableId = $(this).attr("id");
+                Gosyl.Common.GestionUtilisateur.init();
             }'
         ),
         'createdRow' => array(
