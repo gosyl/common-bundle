@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Gosyl\CommonBundle\Service\Mail;
 use Gosyl\CommonBundle\Constantes;
 use Gosyl\CommonBundle\Form\UserUpdateType;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AjaxController extends Controller {
 	/**
@@ -83,11 +84,11 @@ class AjaxController extends Controller {
 		$oServUser = $this->get('gosyl.common.service.user');
 		
 		$aPrivileges = Constantes::$aPrivileges;
-		
-		$oUser = new ParamUsers();
-		
-		$aPost = $request->get('gosyl_user_modification');
-		if(!empty($aPost['password']['first']) && !empty($aPost['password']['second'])) {
+        $aPost = $request->request->all();
+        $oUser = $this->getDoctrine()->getRepository(ParamUsers::class)->findOneBy(array('id' => $aPost['id']));
+
+
+        if (isset($aPost['password']['first']) && isset($aPost['password']['second'])) {
 			if($aPost['password']['first'] != $aPost['password']['second']) {
 				$aReturn = array('error' => true, 'result' => null, 'reasons' => array('password_first' => array('notEqual' => 'Les mots de passe ne sont pas identiques')));
 				return $this->_sendJson($aReturn);
@@ -104,34 +105,52 @@ class AjaxController extends Controller {
 			$oldRole = $aPost['oldRole'];
 			unset($aPost['oldRole']);
 		}
-		
-		$oForm = $this->createForm(new UserUpdateType($aPrivileges, $oUser), $oUser);
-		
-		$oForm->handleRequest($request);
-		
+
+        $oForm = $this->createForm(UserUpdateType::class, $oUser);
+
+        $oForm->handleRequest($request);
+
 		if($oForm->isValid()) {
-			unset($aPost['_token']);
-			if(count($aPost) == 1 && isset($aPost['id']) && $aPost['password'] !=  'done') {
-				$aReturn = array('error' => true, 'result' => null, 'reasons' => array('form' => 'Aucune modification d\'effectué'));
-			} elseif(count($aPost) != 1/* && $aPost['password'] ==  'done'*/) {
-				unset($aPost['password']);
-				$aReturn = $oServUser->updateUtilisateur($aPost, $oldRole);
-			} elseif(count($aPost) == 1 && isset($aPost['id']) && $aPost['password'] ==  'done') {
-				$aReturn = array('error' => false, 'result' => null, 'reasons' => null);
-			}
+            unset($aPost['_token']);
+            /**
+             * @var ParamUsers $oNewUser
+             */
+            $oNewUser = $oForm->getData();
+
+            /**
+             * @var ValidatorInterface $oValidator
+             */
+            $oValidator = $this->get('validator');
+            $errors = $oValidator->validate($oNewUser);
+            if (count($errors) > 0) {
+                $aReasons = array();
+                foreach ($errors as $error) {
+                    $aReasons[$error->getPropertyPath()] = $error->getMessage();
+                }
+
+                $aReturn = array('error' => true, 'reasons' => $aReasons);
+            } else {
+                if (count($aPost) == 1 && isset($aPost['id']) && !isset($aPost['password'])) {
+                    $aReturn = array('error' => true, 'result' => null, 'noResult' => true, 'reasons' => array('form' => 'Aucune modification effectuée'));
+                } elseif (count($aPost) != 1 && !is_null($aPost)) {
+                    $aReturn = $oServUser->updateUtilisateur($aPost, isset($oldRole) ? $oldRole : null);
+                } elseif (count($aPost) == 1 && isset($aPost['id']) && $aPost['password'] == 'done') {
+                    $aReturn = array('error' => false, 'result' => null, 'reasons' => null);
+                }
+            }
 		} else {
 			$aReturn = array('error' => true, 'result' => null, 'reasons' => null);
 			foreach ($oForm->getErrors(true) as $key => $value) {
 				$aReturn['reasons'][$key] = $value;
 			}
 		}
-		
-		return $this->_sendJson($aReturn);
-	}
 
-	/**
-	 * @Route("/ajax/restaurerutilisateur", name="gosyl_common_ajax_restaurerutilisateur")
-	 */
+		return $this->_sendJson($aReturn);
+    }
+
+    /**
+     * @Route("/ajax/restaurerutilisateur", name="gosyl_common_ajax_restaurerutilisateur")
+     */
 	public function restaurerutilisateurAction(Request $request) {
 		/**
 		 * @var Users $oUser

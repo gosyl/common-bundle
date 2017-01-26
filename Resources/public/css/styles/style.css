@@ -14,6 +14,14 @@ header {
     }
 }
 
+.navbar-brand {
+    padding: 0;
+}
+
+.fa-rebel:before {
+    vertical-align: middle;
+}
+
 .dropdown-menu {
     background-color: black;
 }

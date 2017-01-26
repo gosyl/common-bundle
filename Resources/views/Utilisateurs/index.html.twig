@@ -3,17 +3,22 @@
 {% form_theme oFormModifUser 'GosylCommonBundle:form:fields.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
 	{% javascripts
-		'@GosylCommonBundle/Resources/public/js/library/Datatables/media/js/jquery.dataTables.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/datatables.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.js'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
 		'@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/index.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
 	{% stylesheets
-		'bundles/gosylcommon/js/library/Datatables/media/css/jquery.dataTables_themeroller.min.css'
-		'bundles/gosylcommon/css/library/constellation/css/table.css'
+    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.css'
+    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/css/responsive.bootstrap.min.css'
 		'bundles/gosylcommon/css/styles/utilisateurs/index.css'
 		filter='cssrewrite' %}
 		<link rel="stylesheet" href="{{ asset_url }}" />
@@ -26,12 +31,27 @@
 {% endblock %}
 
 {% block content %}
-	{{ datatable(aResultsAllUsers, false, false, false) }}
-	{{ message('suppressionUtilisateur') }}
-	{{ message('restaurationUtilisateur') }}
-	{{ message('activationUtilisateur') }}
-	{{ message('desactivationUtilisateur') }}
-	{{ message(null, form_start(oFormModifUser) ~ form_widget(oFormModifUser) ~ form_end(oFormModifUser) , null, aModalFormModifUser) }}
-	{{ message('errorMsg', aDialogMsgErreurSuppr, null, aDialogOptionsErreur) }}
-	{{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Utilisateurs',
+    contenu: datatable(aResultsAllUsers),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-lg-offset-2 col-lg-8">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+        </div>
+    </div>
+    {#
+    {{ message('suppressionUtilisateur') }}
+    {{ message('restaurationUtilisateur') }}
+    {{ message('activationUtilisateur') }}
+    {{ message('desactivationUtilisateur') }}
+    {{ message(null, form_start(oFormModifUser) ~ form_widget(oFormModifUser) ~ form_end(oFormModifUser) , null, aModalFormModifUser) }}
+    {{ message('errorMsg', aDialogMsgErreurSuppr, null, aDialogOptionsErreur) }}
+    {{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
+    #}
 {% endblock %}

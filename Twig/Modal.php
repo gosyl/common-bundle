@@ -9,15 +9,18 @@
 namespace Gosyl\CommonBundle\Twig;
 
 
-class Modal extends \Twig_Extension
-{
+class Modal extends \Twig_Extension {
     /**
      * @var array
      */
     protected $aOptions;
 
-    public function getFunctions()
-    {
+    /**
+     * @var string
+     */
+    protected $idModal = 'myModal';
+
+    public function getFunctions() {
         return array(
             new \Twig_SimpleFunction('modal', array($this, 'modalFunction'), array('is_safe' => array('html')))
         );
@@ -25,29 +28,42 @@ class Modal extends \Twig_Extension
 
     /**
      * $aOptions ['footer' => [
-     *                   'text' => [],
-     *                   'buttons' => [
-     *                       [
-     *                           'id' => "",
-     *                           'class' => ["", ""] | "",
-     *                           'forClose' => true|false,
-     *                           'label' => ""
-     *                       ],
-     *                       [...]
-     *                   ]
+     *               'text' => [],
+     *               'buttons' => [
+     *                   [
+     *                       'id' => "",
+     *                       'class' => ["", ""] | "",
+     *                       'forClose' => true|false,
+     *                       'label' => ""
+     *                   ],
+     *                   [...],
      *               ]
+     *           ],
+     *           'options' => [
+     *              'id' => "",
+     *              'js' => [
+     *                  'backdrop' => 'static'|false
+     *                  'keyboard' => boolean,
+     *                  'show' => boolean
+     *              ]
      *           ]
+     *       ]
      *
      * @param string $sTitle
      * @param string $sBody
      * @param array $aOptions
      * @return string
      */
-    public function modalFunction($sTitle = '', $sBody = '', array $aOptions = array())
-    {
+    public function modalFunction($sTitle = '', $sBody = '', array $aOptions = array()) {
         $this->aOptions = $aOptions;
 
-        $sContenu = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
+        if (array_key_exists('options', $this->aOptions)) {
+            if (array_key_exists('id', $this->aOptions['options'])) {
+                $this->idModal = $this->aOptions['options']['id'];
+            }
+        }
+
+        $sContenu = '<div class="modal fade" id="' . $this->idModal . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
         $sContenu .= '<div class="modal-dialog" role="document">';
         $sContenu .= '<div class="modal-content">';
 
@@ -58,24 +74,23 @@ class Modal extends \Twig_Extension
         $sContenu .= '</div>';
         $sContenu .= '</div>';
         $sContenu .= '</div>';
+        $sContenu .= $this->_getJs();
         return $sContenu;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'twig.extension.modal';
     }
 
-    protected function _getBody($sBody)
-    {
+    protected function _getBody($sBody) {
         return '<div class="modal-body">' . $sBody . '</div>';
     }
 
-    protected function _getFooter()
-    {
-        $sContenu = '<div class="modal-footer">';
+    protected function _getFooter() {
+        $sContenu = '';
 
         if (count($this->aOptions) != 0 && array_key_exists('footer', $this->aOptions)) {
+            $sContenu .= '<div class="modal-footer">';
             $aFooterContenu = $this->aOptions['footer'];
             if (array_key_exists('text', $aFooterContenu)) {
                 $sContenu .= $this->_getFooterText($aFooterContenu['text']);
@@ -84,14 +99,14 @@ class Modal extends \Twig_Extension
             if (array_key_exists('buttons', $aFooterContenu)) {
                 $sContenu .= $this->_getFooterButtons($aFooterContenu['buttons']);
             }
+            $sContenu .= '</div>';
         }
 
-        $sContenu .= '</div>';
+
         return $sContenu;
     }
 
-    protected function _getFooterButtonClass(array $aButton)
-    {
+    protected function _getFooterButtonClass(array $aButton) {
         $sContenu = '';
 
         if (array_key_exists('class', $aButton)) {
@@ -109,8 +124,7 @@ class Modal extends \Twig_Extension
         return $sContenu;
     }
 
-    protected function _getFooterData(array $aButton)
-    {
+    protected function _getFooterData(array $aButton) {
         $sContenu = '';
 
         if (array_key_exists('forClose', $aButton)) {
@@ -122,8 +136,7 @@ class Modal extends \Twig_Extension
         return $sContenu;
     }
 
-    protected function _getFooterButtons(array $aButtons)
-    {
+    protected function _getFooterButtons(array $aButtons) {
         $sContenu = '';
 
         foreach ($aButtons as $aButton) {
@@ -133,8 +146,7 @@ class Modal extends \Twig_Extension
         return $sContenu;
     }
 
-    protected function _getFooterText(array $aTexts)
-    {
+    protected function _getFooterText(array $aTexts) {
         $sContenu = '';
 
         foreach ($aTexts as $text) {
@@ -144,8 +156,7 @@ class Modal extends \Twig_Extension
         return $sContenu;
     }
 
-    protected function _getHeader($sTitle)
-    {
+    protected function _getHeader($sTitle) {
         $sContenu = '<div class="modal-header">';
         $sContenu .= '<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
             <span aria-hidden="true">&times;</span>
@@ -153,6 +164,34 @@ class Modal extends \Twig_Extension
         $sContenu .= '<h4 class="modal-title" id="myModalLabel">' . $sTitle . '</h4>';
 
         $sContenu .= '</div>';
+        return $sContenu;
+    }
+
+    protected function _getJs() {
+        $sContenu = '';
+        if (array_key_exists('options', $this->aOptions)) {
+            if (array_key_exists('js', $this->aOptions['options'])) {
+                $sContenu .= '<script type="application/javascript">';
+                $sContenu .= '$("#' . $this->idModal . '").modal({';
+                $bFirst = true;
+                foreach ($this->aOptions['options']['js'] as $key => $value) {
+                    if ($bFirst) {
+                        $bFirst = false;
+                    } else {
+                        $sContenu .= ", ";
+                    }
+                    $sContenu .= "'" . $key . "': ";
+                    if (is_string($value)) {
+                        $sContenu .= "'" . $value . "'";
+                    } elseif (is_bool($value)) {
+                        $sContenu .= $value ? "true" : "false";
+                    }
+                }
+            }
+            $sContenu .= "});";
+            $sContenu .= '</script>';
+        }
+
         return $sContenu;
     }
 }

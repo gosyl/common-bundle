@@ -1,11 +1,10 @@
 {% extends "GosylCommonBundle::layout.html.twig" %}
 
-{% form_theme oFormModifUser 'GosylCommonBundle:form:fields.html.twig' %}
-
 {% block javascripts %}
     {{ parent() }}
 	{% javascripts
-    'bundles/gosyldatatable/js/library/Datatables/datatables.js'
+    'bundles/gosyldatatable/js/library/Datatables/datatables.min.js'
+    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.js'
     'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
     'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
 		'@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/index.js' %}
@@ -30,6 +29,7 @@
 {% endblock %}
 
 {% block content %}
+    {# Panel contenant le dataTable #}
     {% set aMessageOptions = {
     typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
     showHeader: true,
@@ -44,13 +44,41 @@
             </div>
         </div>
     </div>
-    {#
-    {{ message('suppressionUtilisateur') }}
-	{{ message('restaurationUtilisateur') }}
-	{{ message('activationUtilisateur') }}
-	{{ message('desactivationUtilisateur') }}
-	{{ message(null, form_start(oFormModifUser) ~ form_widget(oFormModifUser) ~ form_end(oFormModifUser) , null, aModalFormModifUser) }}
-	{{ message('errorMsg', aDialogMsgErreurSuppr, null, aDialogOptionsErreur) }}
-	{{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
-    #}
+
+    {# Popup du formulaire #}
+    {% set aFormModifOptions = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalModifUser'
+    }
+    } %}
+
+    {{ modal('Modifier mon profil', include('GosylCommonBundle:form:form_modifUser.html.twig', {form: oFormModifUser}), aFormModifOptions) }}
+    {% set aModalNoChange = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalNoChange'
+    }
+    } %}
+
+    {# Popup "Pas de modif..." #}
+    {{ modal('Modifier mon profil', 'Aucune modification effectuée', aModalNoChange) }}
+    {% set aModalError = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalError'
+    }
+    } %}
 {% endblock %}

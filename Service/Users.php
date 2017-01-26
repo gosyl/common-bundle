@@ -1,14 +1,13 @@
 <?php
 namespace Gosyl\CommonBundle\Service;
 
-use Gosyl\CommonBundle\Entity\ParamUsers;
+use Doctrine\ORM\EntityManager;
 use Gosyl\CommonBundle\Constantes;
 use Gosyl\CommonBundle\Entity\ParamUsersRepository;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
 class Users {
-	private $_sUrl = 'common/ajax/listerutilisateur';
+    private $_sUrl = 'ajax/listerutilisateur';
 	
 	private $_cols = array(
 			'id' => array(
@@ -65,55 +64,52 @@ class Users {
 	
 	private $_allUserOptions = array(
         //'jQueryUI' => true,
-			'paging' => true,
+        'paging' => true,
         'autoWidth' => false,
-			'stateSave' => true,
-			'retrieve' => true,
-			'pageLength' => 10,
-			'pagingType' => 'full_numbers',
-			'dom' => '<"H"RCTlf>t<"F"rpi>',
-			'initComplete' => array(
-					'function' => 'function(settings, json) {
-		                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).selector;
-		                //decomposeJson(json);
-		        		Gosyl.Common.GestionUtilisateur.init();
-		            }'
-			),
-			'createdRow' => array(
-					'function' => 'function(row, data, dataIndex) {
-		                $(row).data(\'user\', data);
-						$(row).attr(\'id\', \'data_\' + data.id);
-		            }',
-			),
+        'stateSave' => true,
+        'retrieve' => true,
+        'pageLength' => 10,
+        'pagingType' => 'full_numbers',
+        'dom' => '<"H"RCTlf>t<"F"rpi>',
+        'initComplete' => array(
+            'function' => 'function(settings, json) {
+                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).attr("id");
+            }'
+        ),
+        'createdRow' => array(
+            'function' => 'function(row, data, dataIndex) {
+                $(row).data(\'user\', data);
+                $(row).attr(\'id\', \'data_\' + data.id);
+            }',
+        ),
 	);
 	
 	private $_OneUserOptions = array(
         //'jQueryUI' => true,
         'responsive' => true,
-			'paging' => false,
+        'paging' => false,
         'autoWidth' => false,
-			'stateSave' => true,
-			'retrieve' => true,
-			'searching' => false,
-			'info' => false,
+        'stateSave' => true,
+        'retrieve' => true,
+        'searching' => false,
+        'info' => false,
         'sort' => false,
         'lengthChange' => false,
-			//'pageLength' => 10,
-			//'pagingType' => 'full_numbers',
-			'dom' => '<"H"RCTlf>t<"F"rpi>',
-			'initComplete' => array(
-					'function' => 'function(settings, json) {
-		                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).selector;
-		                //decomposeJson(json);
-		        		Gosyl.Common.GestionUtilisateur.init();
-		            }'
-			),
-			'createdRow' => array(
-					'function' => 'function(row, data, dataIndex) {
-		                $(row).data(\'user\', data);
-						$(row).attr(\'id\', \'data_\' + data.id);
-		            }',
-			),
+        //'pageLength' => 10,
+        //'pagingType' => 'full_numbers',
+        'dom' => '<"H"RCTlf>t<"F"rpi>',
+        'initComplete' => array(
+            'function' => 'function(settings, json) {
+                Gosyl.Common.GestionUtilisateur.dataTableId = $(this).attr("id");
+                Gosyl.Common.GestionUtilisateur.init();
+            }'
+        ),
+        'createdRow' => array(
+            'function' => 'function(row, data, dataIndex) {
+                $(row).data(\'user\', data);
+                $(row).attr(\'id\', \'data_\' + data.id);
+            }',
+        ),
 	);
 	
 	static public $aDialogMsgErreurSuppr = 'Erreur lors de la suppression de l\'utilisateur';
@@ -219,24 +215,24 @@ class Users {
 		
 		$this->_oParamUsersRepository = $this->_oDoctrine->getRepository('GosylCommonBundle:ParamUsers');
 	}
-	
-	public function getAllUserForDataTable() {
+
+    public function getAllUserForDataTable($sUrl) {
 		$aResult = array();
 		$aResult['options'] = array_merge($this->_allUserOptions, Constantes::$aDataTableLanguage);
 		$aResult['cols'] = $this->_cols;
-		$aResult['results'] = $this->_sUrl;
+        $aResult['results'] = $sUrl;
 		
 		return $aResult;
 	}
 
-    public function getOneUserForDataTable($idUser, $sRoot)
+    public function getOneUserForDataTable($idUser, $sUrl)
     {
 		$aResult = array();
 		$aResult['options'] = array_merge($this->_OneUserOptions, Constantes::$aDataTableLanguage);
 		$aResult['cols'] = $this->_cols;
 		unset($aResult['cols']['roles']);
         //$aUser = $this->listerUtilisateursForDataTable($this->_oContainer->get('security.token_storage')->getToken()->getUser(), $idUser);
-        $aResult['results'] = $sRoot . $this->_sUrl . '/' . $idUser;
+        $aResult['results'] = $sUrl . '/' . $idUser;
 		
 		return $aResult;
 	}
@@ -327,47 +323,56 @@ class Users {
 		}
 		return $aVarReturn;
 	}
-	
-	public function updateUtilisateur($aData, $sOldRole) {
+
+    public function updateUtilisateur($aData, $sOldRole = null) {
 		if(array_key_exists('dateNaissance', $aData)) {
 		    $aData['dateNaissance'] = \DateTime::createFromFormat('d/m/Y H:i:s', $aData['dateNaissance'] . ' 00:00:00');
 		}
-		
-		if(array_key_exists('roles', $aData)) {
-			foreach (Constantes::$aPrivileges as $role => $key) {
-				if($key == $aData['roles']) {
-					$aData['roles'] = serialize(array($role));
-					$bIsAdmin = $role == Constantes::ROLE_ADMIN ? true : false ;
-				}
-			}
-			
-		} else {
-			$bIsAdmin = $sOldRole == Constantes::ROLE_ADMIN ? true : false ;
-		}
-		
-	    $aDataToModify = array();
-	    foreach ($aData as $key => $value) {
-	    	$aDataToModify['U.' . $key] = $value;
-	    }
-	    
-	    $iNbAdmin = count($this->getAdmin());
-	    
-	    if($iNbAdmin >= 1 && $sOldRole == Constantes::ROLE_ADMIN && $bIsAdmin) {
-	    	// On peut modifier les informations d'un admin
-	    	$result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
-	    	$aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
-	    } elseif($iNbAdmin == 1 && $sOldRole == Constantes::ROLE_ADMIN && !$bIsAdmin) {
-	    	// On ne peut pas changer le privilege d'un admin s'il est le seul
-	    	$aVarReturn = array('error' => true, 'reasons' => array('form' => 'Changement de privilège du dernier admin'));
-	    } elseif($iNbAdmin > 1 && $sOldRole == Constantes::ROLE_ADMIN && !$bIsAdmin) {
-	    	// On peut changer le privilège d'un admin s'il n'est pas le seul
-	    	$result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
-	    	$aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
-	    } else {
-	    	// On peut modifier les autres utilisateurs
-	    	$result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
-	    	$aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
-	    }
+
+
+        $aDataToModify = array();
+        foreach ($aData as $key => $value) {
+            $aDataToModify['U.' . $key] = $value;
+        }
+
+
+        if (!is_null($sOldRole)) {
+            $bIsAdmin = false;
+            if (array_key_exists('roles', $aData)) {
+                foreach (Constantes::$aPrivileges as $role => $key) {
+                    if ($key == $aData['roles']) {
+                        $aData['roles'] = serialize(array($role));
+                        $bIsAdmin = $role == Constantes::ROLE_ADMIN ? true : false;
+                    }
+                }
+
+            } else {
+                $bIsAdmin = $sOldRole == Constantes::ROLE_ADMIN ? true : false;
+            }
+
+            $iNbAdmin = count($this->getAdmin());
+
+            if ($iNbAdmin >= 1 && $sOldRole == Constantes::ROLE_ADMIN && $bIsAdmin) {
+                // On peut modifier les informations d'un admin
+                $result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
+                $aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
+            } elseif ($iNbAdmin == 1 && $sOldRole == Constantes::ROLE_ADMIN && !$bIsAdmin) {
+                // On ne peut pas changer le privilege d'un admin s'il est le seul
+                $aVarReturn = array('error' => true, 'reasons' => array('form' => 'Changement de privilège du dernier admin'));
+            } elseif ($iNbAdmin > 1 && $sOldRole == Constantes::ROLE_ADMIN && !$bIsAdmin) {
+                // On peut changer le privilège d'un admin s'il n'est pas le seul
+                $result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
+                $aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
+            } else {
+                // On peut modifier les autres utilisateurs
+                $result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
+                $aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
+            }
+        } else {
+            $result = $this->_oParamUsersRepository->modifierUsers($aDataToModify, $aData['id']);
+            $aVarReturn = array('error' => false, 'result' => $result, 'reasons' => array());
+        }
+
 	    
 	    return $aVarReturn;
 	}

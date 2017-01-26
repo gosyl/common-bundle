@@ -10,7 +10,7 @@ class Administration extends AbstractMenu {
     protected $sUrl = null;
     protected $sTitle = 'Administration';
     protected $bVerifRole = true;
-    protected $aRoles = array('ROLE_ADMIN');
+    protected $aRoles = array('ROLE_ADMIN', 'ROLE_USER');
     protected $aSubMenu = array(
         'Profil',
         'Utilisateurs'

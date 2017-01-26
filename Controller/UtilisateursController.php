@@ -23,7 +23,7 @@ class UtilisateursController extends Controller {
 		 * @var Users $oUsers
 		 */
 		$oUsers = $this->get('gosyl.common.service.user');
-		$aResultsAllUsers = $oUsers->getAllUserForDataTable(); // echo "<pre>"; var_dump($aResultsAllUsers);die('</pre>');
+        $aResultsAllUsers = $oUsers->getAllUserForDataTable($this->generateUrl('gosyl_common_ajax_listerutilisateur')); // echo "<pre>"; var_dump($aResultsAllUsers);die('</pre>');
 		                                                       
 		// Récupération des privilèges
 		$this->aPrivileges = Constantes::$aPrivileges;
@@ -65,7 +65,7 @@ class UtilisateursController extends Controller {
     	 * @var Users $oSrvUsers
     	 */
     	$oSrvUsers = $this->get('gosyl.common.service.user');
-        $aResultOneUser = $oSrvUsers->getOneUserForDataTable($oUser->getId(), $this->generateUrl('gosyl_homepage'));
+        $aResultOneUser = $oSrvUsers->getOneUserForDataTable($oUser->getId(), $this->generateUrl('gosyl_common_ajax_listerutilisateur'));
     	
     	// Récupération des privilèges
     	$this->aPrivileges = Constantes::$aPrivileges;
@@ -132,8 +132,8 @@ class UtilisateursController extends Controller {
 	
 	protected function _createFormModifUser(ParamUsers $oUser = null) {
 		$oUser = is_null($oUser) ? new ParamUsers(): $oUser;
-		 
-		$oForm = $this->createForm('Gosyl\CommonBundle\Form\UserUpdateType', array('oUser' => $oUser, 'aPrivileges' => $this->aPrivileges));
+
+        $oForm = $this->createForm('Gosyl\CommonBundle\Form\UserUpdateType', $oUser);//array('oUser' => $oUser, 'aPrivileges' => $this->aPrivileges));
 	
 		return $oForm;
 	}

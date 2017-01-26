@@ -9,6 +9,7 @@
     {% block stylesheets %}
         {% stylesheets
         'bundles/gosylcommon/css/library/bootstrap/css/bootstrap.min.css'
+        'bundles/gosylcommon/css/library/font-awesome/css/font-awesome.min.css'
         'bundles/gosylcommon/css/styles/style.css'
         filter='cssrewrite' %}
         {#
@@ -67,7 +68,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{{ path('gosyl_homepage') }}">
-                        {{ block('title') }}
+                        <span class="fa fa-rebel fa-2x" style="color: white;"></span>{{ block('title') }}
                     </a>
                 </div>
                 {% set routeActuelle = app.request.attributes.get('_route') %}

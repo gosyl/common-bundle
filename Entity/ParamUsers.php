@@ -77,7 +77,9 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @var string
      *
      * @ORM\Column(name="EMAIL", type="string", length=255, nullable=false)
-     * @Assert\Email(message="Adresse e-mail incorrecte")
+     *
+     * @Assert\Email(message="Adresse e-mail incorrecte. Format attendu : abc@domaine.xyz")
+     * @Assert\Length(max="255", maxMessage="Email trop long")
      */
     private $email;
 
@@ -98,6 +100,7 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @var \DateTime
      *
      * @ORM\Column(name="DATE_SUPPRESSION", type="datetime", nullable=true)
+     * @Assert\DateTime(format="d/m/Y", message="Format invalide")
      */
     private $dateSuppression;
     

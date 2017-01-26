@@ -13,10 +13,10 @@ div.dataTables_wrapper {
 	max-width: 98%;
 }*/
 
-.tableAction td {
+/*.tableAction td {
 	width: 23px;
 	text-align: center !important;
-}
+}*/
 
 .suppressionUtilisateur, .modifUtilisateur, .activeUtilisateur, .restaureUtilisateur, .desactiveUtilisateur {
 	cursor: pointer;
@@ -36,9 +36,10 @@ div.dataTables_wrapper {
 	font-family: serif;
 }
 
+/*
 .removed {
 	text-decoration: line-through;
-}
+}*/
 
 .inactif {
 	color: #cccccc;
