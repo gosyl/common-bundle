@@ -30,6 +30,10 @@ header {
     color: white;
 }
 
+.userAdmin {
+    color: orange;
+}
+
 /* Panel */
 .panel {
     background-color: #dcdcdc;

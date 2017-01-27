@@ -31,6 +31,13 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ usersActive() }}
+            {% endif %}
+        </div>
+    </div>
     {% set aMessageOptions = {
     typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
     showHeader: true,

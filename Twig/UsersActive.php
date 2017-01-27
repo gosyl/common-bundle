@@ -3,6 +3,7 @@ namespace Gosyl\CommonBundle\Twig;
 
 use Gosyl\CommonBundle\Entity\ParamUsers;
 use Doctrine\ORM\EntityManager;
+use Gosyl\CommonBundle\Entity\ParamUsersRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Gosyl\CommonBundle\Constantes;
 
@@ -30,21 +31,26 @@ class UsersActive extends \Twig_Extension {
 	
 	public function usersActiveFunction() {
 		$sContenu = '';
-		
-		if($this->_oTokenStorage->getToken()) {
+
+        if ($this->_oTokenStorage->getToken() && $this->_oTokenStorage->getToken()->getUser() != 'anon.') {
 			if($this->_oTokenStorage->getToken()->getUser()->getRoles()[0] == Constantes::ROLE_ADMIN ) {
-				$aUsersActive = $this->_oEntityManager->getRepository('GosylCommonBundle:ParamUsers')->getActive();
-				
-				$sContenu = '<fieldset id="utilisateursConnectes">';
+                /**
+                 * @var ParamUsersRepository $oParamUserRepos
+                 */
+                $oParamUserRepos = $this->_oEntityManager->getRepository('GosylCommonBundle:ParamUsers');
+                $aUsersActive = $oParamUserRepos->getActive();
+
+                $sContenu = '<div id="utilisateursConnectes" class="panel panel-primary">';
 				
 				$iNbUtilisateurs = count($aUsersActive);
 				$bPlusieursUtilisateurs = $iNbUtilisateurs > 1;
-				
-				$sContenu .= '<legend>Utilisateur' . ($bPlusieursUtilisateurs ? 's' : '') . ' Connecté' . ($bPlusieursUtilisateurs ? 's' : '') . '</legend>';
+
+                $sContenu .= '<div class="panel-heading">Utilisateur' . ($bPlusieursUtilisateurs ? 's' : '') . ' Connecté' . ($bPlusieursUtilisateurs ? 's' : '') . '</div>';
 				/**
 				 * @var ParamUsers $oUser
 				 */
 				$i = 1;
+                $sContenu .= '<div class="panel-body">';
 				foreach ($aUsersActive as $aUser) {
 					if($aUser['roles'][0] == Constantes::ROLE_ADMIN) {
 						$sContenu .= '<span class="userAdmin">' . $aUser['username'] . '</span>';
@@ -57,7 +63,7 @@ class UsersActive extends \Twig_Extension {
 					
 					$i++;
 				}
-				$sContenu .= '</fieldset>';
+                $sContenu .= '</div></div>';
 			}
 		}
 		
