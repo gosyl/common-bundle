@@ -4,7 +4,6 @@ namespace Gosyl\CommonBundle\Form;
 
 use Gosyl\CommonBundle\Constantes;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Gosyl\CommonBundle\Entity\ParamUsers;
 use Symfony\Component\Form\FormView;
@@ -62,17 +61,16 @@ class UserUpdateType extends AbstractType {
                 'attr' => array(
                     'id' => 'email',
                     'pattern' => '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$'
-                ),
-                'data' => ParamUsers::class
+                )
             ));
 
         if(is_null($this->_oUser->getId())) {
             $builder->add('oldRole', HiddenType::class, array('attr' => array('id' => 'oldRole'), 'label' => 'oldRole'))
-                ->add('roles', ChoiceType::class, array('choices' => $this->_aPrivileges, 'expanded' => false, 'multiple' => false, 'choices_as_values' => true, 'mapped' => false));
+                ->add('roles', ChoiceType::class, array('choices' => $this->_aPrivileges, 'expanded' => false, 'multiple' => false, 'mapped' => false));
         }
 
         $builder->add('sendForm', ButtonType::class, array('label' => 'Enregister', 'attr' => array('type' => 'button')))
-            ->add('btnCancel', ResetType::class, array(
+            ->add('btnCancel', ButtonType::class, array(
                 'label' => 'Effacer'
             ));
     }

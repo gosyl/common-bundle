@@ -10,12 +10,15 @@ if(typeof Gosyl.Common === 'undefined') {
 }
 
 Gosyl.Common.GestionUtilisateur = (function($) {
-	var dataTableId;
+    var dataTableId = '';
+    var curIdUser;
+    var $modalErreur = $('#modalErreur');
 
 	function init() {
         var $dataTable = $('#' + this.dataTableId);
 		// Activation des évènements sur les différents boutons
-        $dataTable.on('click', '.suppressionUtilisateur', suppressionUtilisateur);
+        $dataTable.on('click', '.suppressionUtilisateur', DmdeSuppressionUtilisateur);
+        $('#btnSubmitSuppr').on('click', suppressionUtilisateur);
 
         $dataTable.on('click', '.modifUtilisateur', modifUtilisateur);
 
@@ -29,6 +32,8 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 
         $('#modalModifUser').on('hidden.bs.modal', resetModal);
 
+        $modalErreur.on('hidden.bs.modal', resetErreurModal);
+
 		// datepicker dateNaissance
 		Gosyl.Common.loadDatePicker('modification_dateNaissance');
 	}
@@ -36,15 +41,19 @@ Gosyl.Common.GestionUtilisateur = (function($) {
     function resetModal(e) {
         e.stopPropagation();
 
-        $.each($('.formError'), function (i, elem) {
-            $(elem).html('');
-        });
-        $('#modification').get(0).reset();
+        disableActivateFormElement();
+    }
+
+    function resetErreurModal(e) {
+        e.stopPropagation();
+
+        var $this = $(this);
+        $this.find('.modal-body').html('');
     }
 
     function resetForm(e) {
         e.stopPropagation();
-
+        populateModifForm($(this).data('user'));
     }
 
 	function modifUtilisateur(e) {
@@ -53,12 +62,13 @@ Gosyl.Common.GestionUtilisateur = (function($) {
         var idUser = $btn.data('id');
         var dataUser = $('#data_' + idUser).data('user');
         var $modal = $('#modalModifUser');
-        var $modificationUsername = $('#username');
-        var $modificationPassword = $('#password');
+        /*var $modificationUsername = $('#username');
+         var $modificationPassword = $('#password');*/
         var $modificationSendForm = $('#sendForm');
         var $modificationBtnQuit = $('#btnQuit');
 
         populateModifForm(dataUser);
+        $('#btnCancel').data('user', dataUser);
 
         $modal.modal('show');
 
@@ -84,7 +94,7 @@ Gosyl.Common.GestionUtilisateur = (function($) {
         // Evènement lors de l'envoie du formulaire
         $modificationSendForm.off('click');
         $modificationSendForm.on('click', function (e) {
-            var message;
+            //var message;
             e.stopPropagation();
 
             Gosyl.Common.GestionUtilisateur.disableActivateFormElement(dataUser, true);
@@ -115,7 +125,7 @@ Gosyl.Common.GestionUtilisateur = (function($) {
                             }
 
                             // erreur du formulaire
-                            var message;
+                            //var message;
                             $.each(retour.reasons, function (formElement, oMessage) {
                                 if (formElement == 'form') {
                                     $('#formErreurs').html(oMessage);
@@ -157,8 +167,19 @@ Gosyl.Common.GestionUtilisateur = (function($) {
     }
 
 	function disableActivateFormElement(dataUser, bool) {
-        var $modif
-		$.each(dataUser, function(key, value) {
+        var $modif;
+
+        if (typeof dataUser === 'undefined' && typeof bool === 'undefined') {
+            $.each($('#modification').find('input').not('input[id="_token"]'), function (i, elem) {
+                var $elem = $(elem);
+                $elem.val('');
+                $(elem).prop('disabled', false);
+            });
+
+            return;
+        }
+
+        $.each(dataUser, function (key, value) {
             $modif = $('#' + key);
 			if(key != 'id') {
                 if ($modif.length != 0) {
@@ -168,9 +189,10 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 				}
 			}
 			if(key == 'roles') {
-                $.each($('#roles option'), function (i, val) {
+                var $roles = $('#roles');
+                $.each($roles.find('option'), function (i, val) {
 					if($(val).prop('selected') && $(val).html() == value) {
-                        $('#roles').prop('disabled', bool);
+                        $roles.prop('disabled', bool);
 					}
 				});
 			}
@@ -207,21 +229,20 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 			url : 'ajax/banutilisateur',
 			data : {
 				'id' : idUser,
-				'mode' : 'desactive',
+                'mode': 'desactive'
 			},
+            cache: false
 		}).then(function(json) {
-			$('#dmdActUtilisateur').dialog('close');
-
 			if (json.error) {
-				$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-			} else {
-				Gosyl.Common.GestionUtilisateur.reloadDataTable();
-			}
-		}).fail(function(json) {
-			if(json.status != 404) {
-				$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-			}
-		});
+                $modalErreur.find('.modal-body').html("Une erreur est survenue lors de la désactivation de l'utilisateur");
+                $modalErreur.modal('show');
+            }
+        }).fail(function () {
+            $modalErreur.find('.modal-body').html("Une erreur est survenue lors de la désactivation de l'utilisateur");
+            $modalErreur.modal('show');
+        }).always(function () {
+            Gosyl.Common.GestionUtilisateur.reloadDataTable();
+        });
 	}
 
 	function activeUtilisateur(e) {
@@ -236,19 +257,20 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 			url : 'ajax/banutilisateur',
 			data : {
 				'id' : idUser,
-				'mode' : 'active',
+                'mode': 'active'
 			},
+            cache: false
 		}).then(function(json) {
-			$('#dmdActUtilisateur').dialog('close');
-
 			if (json.error) {
-				$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-			} else {
-				Gosyl.Common.GestionUtilisateur.reloadDataTable();
+                $modalErreur.find('.modal-body').html("Une erreur est survenue lors de l'activation de l'utilisateur");
+                $modalErreur.modal('show');
 			}
-		}).fail(function(json) {
-			$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-		});
+        }).fail(function () {
+            $modalErreur.find('.modal-body').html("Une erreur est survenue lors de l'activation de l'utilisateur");
+            $modalErreur.modal('show');
+        }).always(function () {
+            Gosyl.Common.GestionUtilisateur.reloadDataTable();
+        });
 	}
 
 	function restaureUtilisateur(e) {
@@ -263,43 +285,55 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 			url : 'ajax/restaurerutilisateur',
 			data : {
 				'id' : idUser,
-				'from' : 'index',
+                'from': 'index'
 			},
+            cache: false
 		}).then(function(json) {
-			$('#dmdRestUtilisateur').dialog('close');
-
 			if (json.error) {
-				$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-			} else {
-				Gosyl.Common.GestionUtilisateur.reloadDataTable();
+                $modalErreur.find('.modal-body').html("Une erreur est survenue lors de la restauration de l'utilisateur");
+                $modalErreur.modal('show');
 			}
-		}).fail(function(json) {
-			$('#dialogErrorRestaureUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-		});
+        }).fail(function () {
+            $modalErreur.find('.modal-body').html("Une erreur est survenue lors de la restauration de l'utilisateur");
+            $modalErreur.modal('show');
+        }).always(function () {
+            Gosyl.Common.GestionUtilisateur.reloadDataTable();
+        });
 	}
 
-	function suppressionUtilisateur(e) {
-		e.stopPropagation();
+    function DmdeSuppressionUtilisateur(e) {
+        e.stopPropagation();
 
-		// Récupération des données de l'utilisateur
-		var idUser = $(this).data('id');
+        // Récupération des données de l'utilisateur
+
+        var $modal = $('#modalSuppressionUtilisateur');
+        $modal.modal('show');
+        curIdUser = $(this).data('id');
+    }
+
+    function suppressionUtilisateur(e) {
+        e.stopPropagation();
 
 		$.ajax({
 			dataType : 'json',
 			type : 'POST',
 			url : 'ajax/supprimerutilisateur',
 			data : {
-				'id' : idUser,
-			},
+                'id': curIdUser
+            }
 		}).then(function(json) {
-			$('#dmdSupprUtilisateur').dialog('close');
+            $('#modalSuppressionUtilisateur').modal('hide');
 
 			if (json.error) {
-				$('#dialogErrorSupprUtilisateur').data('dataUtilisateur', oUser).dialog('open');
-			} else {
-				Gosyl.Common.GestionUtilisateur.reloadDataTable();
-			}
-		});
+                $modalErreur.find('.modal-body').html("Une erreur est survenu lors de la suppression de l'utilisateur");
+                $modalErreur.modal('show');
+            }
+        }).fail(function () {
+            $modalErreur.find('.modal-body').html("Une erreur est survenu lors de la suppression de l'utilisateur");
+            $modalErreur.modal('show');
+        }).always(function () {
+            Gosyl.Common.GestionUtilisateur.reloadDataTable();
+        });
 	}
 
     function gereUtilisateur(data) {
@@ -378,16 +412,15 @@ Gosyl.Common.GestionUtilisateur = (function($) {
                 $('#oldRole').val(data);
 			}
             var $idInput = $('#' + idInput);
-            if ($idInput.length) {
+            if ($idInput.length > 0) {
                 if ($idInput.get(0).tagName == 'INPUT') {
                     $idInput.val(data);
                 } else if ($idInput.get(0).tagName == 'SELECT') {
-                    $.each($('#' + idInput + ' option'), function (i, val) {
+                    $.each($idInput.find('option'), function (i, val) {
 						if($(val).html() == data) {
-                            $('#' + idInput + ' option[value="' + $(val).val() + '"]').prop('selected', true);
+                            $idInput.find('option[value="' + data + '"]').prop('selected', true);
 						}
 					});
-					//
 				}
 			}
 		});
