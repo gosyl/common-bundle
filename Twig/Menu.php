@@ -5,12 +5,18 @@ use Gosyl\CommonBundle\Twig\Menu\AbstractMenu;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
-class Menu extends \Twig_Extension
-{
+class Menu extends \Twig_Extension {
     /**
      * @var Router
      */
     protected $router;
+
+    /**
+     * @var array
+     */
+    protected $aNamespaces = array(
+        "\\" . __NAMESPACE__ . "\\" . 'Menu' . "\\" => 'Common'
+    );
 
     /**
      * @var AuthorizationChecker
@@ -21,12 +27,26 @@ class Menu extends \Twig_Extension
      * @var array
      */
     protected $aMenu = array(
-        'Connexion',
-        //'Inscription',
-        'Administration',
-        'Deconnexion',
-
+        0 => 'Connexion',
+        //97 => 'Inscription',
+        98 => 'Administration',
+        99 => 'Deconnexion',
     );
+
+    /**
+     * @var array
+     */
+    protected $aClassesLoaded = array();
+
+    /**
+     * @param array $childMenu
+     * @param array $childNamespace
+     */
+    protected function mergeNamespace(array $childMenu = array(), array $childNamespace = array()) {
+        $this->aNamespaces = array_merge($this->aNamespaces, $childNamespace);
+        $this->aMenu = $this->aMenu + $childMenu;
+        ksort($this->aMenu);
+    }
 
     /**
      * Menu constructor.
@@ -47,16 +67,33 @@ class Menu extends \Twig_Extension
     public function menuFunction($routeActuelle) {
         $sContenu = '';
         foreach($this->aMenu as $menu) {
-            $sClassName = "\\" . __NAMESPACE__ . "\\" . 'Menu' . "\\" . $menu;
-            /**
-             * @var AbstractMenu $oMenu
-             */
-            $oMenu = new $sClassName($this->router, $this->autorizationChecker);
-            if($oMenu->getUrl() != $routeActuelle) {
-                $sContenu .= $oMenu->getLink();
-            }
+            foreach ($this->aNamespaces as $namespace => $bundle) {
+                $sClassName = $namespace . $menu;
+                if (class_exists($sClassName)) {
+                    // On teste si la classe existe dans la bundle enfant
+                    foreach ($this->aNamespaces as $newNamespace => $newBundle) {
+                        if ($newNamespace == $namespace) {
+                            continue;
+                        } elseif (class_exists($newNamespace . $menu) && $newBundle != 'Common') {
+                            $sClassName = $newNamespace . $menu;
+                            break;
+                        }
+                    }
 
-        }
+                    if (!in_array($sClassName, $this->aClassesLoaded)) {
+                        /**
+                         * @var AbstractMenu $oMenu
+                         */
+                        $oMenu = new $sClassName($this->router, $this->autorizationChecker, $this->aNamespaces);
+                        $this->aClassesLoaded[] = $sClassName;
+                        if ($oMenu->getUrl() != $routeActuelle) {
+                            $sContenu .= $oMenu->getLink();
+                        }
+                    }
+
+                }
+            }
+        }//die;
 
         return $sContenu;
     }

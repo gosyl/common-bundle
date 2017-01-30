@@ -2,7 +2,6 @@
 namespace Gosyl\CommonBundle\Twig\Menu;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 abstract class AbstractMenu {
@@ -50,6 +49,11 @@ abstract class AbstractMenu {
      * @var array|null
      */
     protected $aSubMenu;
+
+    /**
+     * @var array
+     */
+    protected $aNameSpace;
 
     /**
      * @return string
@@ -149,7 +153,7 @@ abstract class AbstractMenu {
         $this->aSubMenu = $aSubMenu;
     }
 
-    public function __construct(Router $router, AuthorizationChecker $autorization) {
+    public function __construct(Router $router, AuthorizationChecker $autorization, $aNamespace) {
         if(is_null($this->router)) {
             $this->router = $router;
         }
@@ -157,6 +161,8 @@ abstract class AbstractMenu {
         if(is_null($this->autorization)) {
             $this->autorization = $autorization;
         }
+
+        $this->aNameSpace = $aNamespace;
     }
 
     /**
@@ -201,6 +207,7 @@ abstract class AbstractMenu {
                 return '';
             }
         }
+        return '';
     }
 
     /**
@@ -214,16 +221,21 @@ abstract class AbstractMenu {
         $sContenu .= '<ul class="dropdown-menu">';
         foreach($this->aSubMenu as $sousMenu) {
             if(is_null($sousMenu)) {
-                $bSeparation = true;
+                //$bSeparation = true;
+                $sContenu .= $this->_getLien(true);
             } else {
-                /**
-                 * @var AbstractMenu $oSousMenu
-                 */
-                $sClasse = "\\" . __NAMESPACE__ . '\\' . $sousMenu;
-                $oSousMenu = new $sClasse($this->router, $this->autorization);
-                $bSeparation = false;
+                foreach ($this->aNameSpace as $namespace => $bundle) {
+                    $sClasse = $namespace . $sousMenu;
+                    if (class_exists($sClasse)) {
+                        /**
+                         * @var AbstractMenu $oSousMenu
+                         */
+                        $oSousMenu = new $sClasse($this->router, $this->autorization, $this->aNameSpace);
+                        $bSeparation = false;
+                        $sContenu .= $oSousMenu->getLink($bSeparation);
+                    }
+                }
             }
-            $sContenu .= $oSousMenu->getLink($bSeparation);
         }
         $sContenu .= '</ul>';
         $sContenu .= '</li>';
