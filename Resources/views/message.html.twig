@@ -18,7 +18,7 @@
     {% set showBody = true %}
 {% endif %}
 
-<div class="panel {{ aTypePanel[typePanel] }}" {{ id ? 'id="' ~ id ~ '"' : '' }}>
+<div class="panel {{ aTypePanel[typePanel] }}" {{ id is defined ? 'id="' ~ id ~ '"' : '' }}>
     {% if showHeader %}
         <div class="panel-heading">
             <h3 class="panel-title">{{ title }}</h3>
