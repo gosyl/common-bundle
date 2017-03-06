@@ -14,15 +14,21 @@
 (PANEL_DANGER): 'panel-danger'
 } %}
 
+{% if showBody is not defined %}
+    {% set showBody = true %}
+{% endif %}
+
 <div class="panel {{ aTypePanel[typePanel] }}">
     {% if showHeader %}
         <div class="panel-heading">
             <h3 class="panel-title">{{ title }}</h3>
         </div>
     {% endif %}
-    <div class="panel-body">
-        {{ contenu | raw }}
-    </div>
+    {% if showBody %}
+        <div class="panel-body">
+            {{ contenu | raw }}
+        </div>
+    {% endif %}
     {% if showFooter %}
         <div class="panel-footer">
             Panel footer
