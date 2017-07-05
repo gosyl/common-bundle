@@ -6,7 +6,7 @@
     <title>{% block title %}{{ pretty_project_name }} - {% endblock %}</title>
     {% set logo = 'bundles/gosylcommon/images/rebel.png' %}
     {% image %}
-        <link rel="icon" href="{{ asset_url(logo) }}">
+        <link rel="icon" href="{{ asset(logo) }}">
     {% endimage %}
 
     {% block stylesheets %}
