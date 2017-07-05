@@ -5,11 +5,11 @@
 {% block javascripts %}
     {{ parent() }}
 	{% javascripts
-    'bundles/gosyldatatable/js/library/Datatables/datatables.min.js'
-    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.js'
-    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
-    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
-		'@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/index.js' %}
+        'bundles/gosyldatatable/js/library/Datatables/datatables.min.js'
+        'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.js'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
+		'bundles/gosylcommon/js/scripts/utilisateurs/index.js' %}
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
@@ -17,8 +17,8 @@
 {% block stylesheets %}
     {{ parent() }}
 	{% stylesheets
-    'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.css'
-    'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/css/responsive.bootstrap.min.css'
+        'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.css'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/css/responsive.bootstrap.min.css'
 		'bundles/gosylcommon/css/styles/utilisateurs/index.css'
 		filter='cssrewrite' %}
 		<link rel="stylesheet" href="{{ asset_url }}" />
