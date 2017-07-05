@@ -4,8 +4,11 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{% block title %}{{ pretty_project_name }} - {% endblock %}</title>
-    {% image 'bundles/gosylcommon/images/rebel.png' %}
-    <link rel="icon" href="{{ asset_url }}">
+    {% if logo is not defined %} {# logo est parametrer dans twig -> globals #}
+        {% set logo = 'bundles/gosylcommon/images/rebel.png' %}
+    {% elseif %}
+    {% image %}
+        <link rel="icon" href="{{ asset(logo) }}">
     {% endimage %}
 
     {% block stylesheets %}
