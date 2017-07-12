@@ -52,9 +52,8 @@ class Modal extends \Twig_Extension {
      *                  'show' => boolean
      *              ],
      *              'class' => [
-     *                  'class1',
-     *                  'class2',
-     *                  ....
+     *                  'modal' => ['class1', 'class2', ...],
+     *                  'modal-dialog' => ['class1', 'class2', ...]
      *              ]
      *           ]
      *       ]
@@ -75,8 +74,8 @@ class Modal extends \Twig_Extension {
             }
         }
 
-        $sContenu = '<div class="modal fade ' . (implode(' ', $this->classModal)) . '" id="' . $this->idModal . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
-        $sContenu .= '<div class="modal-dialog" role="document">';
+        $sContenu = '<div class="modal fade '.(implode('', $this->aOptions['options']['class']['modal'])).'" id="' . $this->idModal . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
+        $sContenu .= '<div class="modal-dialog '.(implode('', $this->aOptions['options']['class']['modal-dialog'])).'" role="document">';
         $sContenu .= '<div class="modal-content">';
 
         $sContenu .= $this->_getHeader($sTitle);
