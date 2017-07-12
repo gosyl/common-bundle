@@ -69,7 +69,9 @@ class Modal extends \Twig_Extension {
         if (array_key_exists('options', $this->aOptions)) {
             if (array_key_exists('id', $this->aOptions['options'])) {
                 $this->idModal = $this->aOptions['options']['id'];
-            } elseif(array_key_exists('class', $this->aOptions['options'])) {
+            }
+
+            if(array_key_exists('class', $this->aOptions['options'])) {
                 $this->classModal = $this->aOptions['options']['class'];
             }
         }
