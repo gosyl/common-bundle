@@ -20,6 +20,11 @@ class Modal extends \Twig_Extension {
      */
     protected $idModal = 'myModal';
 
+    /**
+     * @var array
+     */
+    protected $classModal = [];
+
     public function getFunctions() {
         return array(
             new \Twig_SimpleFunction('modal', array($this, 'modalFunction'), array('is_safe' => array('html')))
@@ -45,6 +50,11 @@ class Modal extends \Twig_Extension {
      *                  'backdrop' => 'static'|false
      *                  'keyboard' => boolean,
      *                  'show' => boolean
+     *              ],
+     *              'class' => [
+     *                  'class1',
+     *                  'class2',
+     *                  ....
      *              ]
      *           ]
      *       ]
@@ -60,10 +70,12 @@ class Modal extends \Twig_Extension {
         if (array_key_exists('options', $this->aOptions)) {
             if (array_key_exists('id', $this->aOptions['options'])) {
                 $this->idModal = $this->aOptions['options']['id'];
+            } elseif(array_key_exists('class', $this->aOptions['options'])) {
+                $this->classModal = $this->aOptions['options']['class'];
             }
         }
 
-        $sContenu = '<div class="modal fade" id="' . $this->idModal . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
+        $sContenu = '<div class="modal fade ' . (implode(' ', $this->classModal)) . '" id="' . $this->idModal . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
         $sContenu .= '<div class="modal-dialog" role="document">';
         $sContenu .= '<div class="modal-content">';
 
