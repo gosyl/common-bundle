@@ -6,7 +6,7 @@
     <title>{% block title %}{{ pretty_project_name }} - {% endblock %}</title>
     {% if logo is not defined %} {# logo est parametrer dans twig -> globals #}
         {% set logo = 'bundles/gosylcommon/images/rebel.png' %}
-    {% elseif %}
+    {% endif %}
     {% image %}
         <link rel="icon" href="{{ asset(logo) }}">
     {% endimage %}
