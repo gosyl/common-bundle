@@ -41,7 +41,7 @@ services:
     twig.extension.menu:
         class: Gosyl\CommonBundle\Twig\Menu
         public: false
-        arguments: ['@router', '@security.authorization_checker']
+        arguments: ['@router', '@security.authorization_checker', '@service_container']
         tags:
             - { name: twig.extension }
             
