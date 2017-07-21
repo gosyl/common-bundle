@@ -88,12 +88,12 @@ class Menu extends \Twig_Extension {
                         }
                     }
 
-                    if (!in_array($sClassName, $this->aClassesLoaded)) {
+                    if (!in_array($menu, $this->aClassesLoaded)) {
                         /**
                          * @var AbstractMenu $oMenu
                          */
                         $oMenu = new $sClassName($this->router, $this->autorizationChecker, $this->aNamespaces);
-                        $this->aClassesLoaded[] = $sClassName;
+                        $this->aClassesLoaded[] = $menu;
                         if ($oMenu->getUrl() != $routeActuelle) {
                             $sContenu .= $oMenu->getLink();
                         }
