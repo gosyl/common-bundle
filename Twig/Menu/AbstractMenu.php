@@ -184,7 +184,7 @@ abstract class AbstractMenu {
             } elseif($bAuth && !is_array($this->aSubMenu)) {
                 return $this->_getLien($bIsSeparator);
             } else {
-                return '';
+                //return '';
             }
         } elseif ($this->bVerifRole && is_null($this->aRoles)) {
             if ($this->autorization->isGranted('IS_AUTHENTICATED_ANONYMOUSLY') && !$this->autorization->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -193,10 +193,10 @@ abstract class AbstractMenu {
                 } elseif (!is_array($this->aSubMenu)) {
                     return $this->_getLien($bIsSeparator);
                 } else {
-                    return '';
+                    //return '';
                 }
             } else {
-                return '';
+                //return '';
             }
         } elseif(!$this->bVerifRole) {
             if(is_array($this->aSubMenu)) {
@@ -204,53 +204,82 @@ abstract class AbstractMenu {
             } elseif(!is_array($this->aSubMenu)) {
                 return $this->_getLien($bIsSeparator);
             } else {
-                return '';
+                //return '';
             }
         }
-        return '';
+        return [];
     }
 
     /**
      * @return string
      */
     protected function _getSousMenu() {
-        $sContenu = '';
-        $sContenu .= '<li class="dropdown">';
-        $sContenu .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $this->sTitle . '</a>';
-        // ouverture du sous menu
-        $sContenu .= '<ul class="dropdown-menu">';
+        $contenu = [
+            'lien' => null,
+            'titre' => $this->sTitle,
+            'subMenu' => []
+        ];
         foreach($this->aSubMenu as $sousMenu) {
             if(is_null($sousMenu)) {
                 //$bSeparation = true;
-                $sContenu .= $this->_getLien(true);
+                $contenu['subMenu'][] = $this->_getLien(true);
             } else {
                 foreach ($this->aNameSpace as $namespace => $bundle) {
-                    $sClasse = $namespace . $sousMenu;
+                    $sClasse = $namespace . '\\' . $sousMenu;
                     if (class_exists($sClasse)) {
-                        /**
-                         * @var AbstractMenu $oSousMenu
-                         */
                         $oSousMenu = new $sClasse($this->router, $this->autorization, $this->aNameSpace);
                         $bSeparation = false;
-                        $sContenu .= $oSousMenu->getLink($bSeparation);
+                        $contenu['subMenu'][] = $oSousMenu->getLink($bSeparation);
                     }
                 }
             }
         }
-        $sContenu .= '</ul>';
-        $sContenu .= '</li>';
-        return $sContenu;
+//        $sContenu = '';
+//        $sContenu .= '<li class="dropdown">';
+//        $sContenu .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $this->sTitle . '</a>';
+//        // ouverture du sous menu
+//        $sContenu .= '<ul class="dropdown-menu">';
+//        foreach($this->aSubMenu as $sousMenu) {
+//            if(is_null($sousMenu)) {
+//                //$bSeparation = true;
+//                $sContenu .= $this->_getLien(true);
+//            } else {
+//                foreach ($this->aNameSpace as $namespace => $bundle) {
+//                    $sClasse = $namespace . '\\' . $sousMenu;
+//                    if (class_exists($sClasse)) {
+//                        /**
+//                         * @var AbstractMenu $oSousMenu
+//                         */
+//                        $oSousMenu = new $sClasse($this->router, $this->autorization, $this->aNameSpace);
+//                        $bSeparation = false;
+//                        $sContenu .= $oSousMenu->getLink($bSeparation);
+//                    }
+//                }
+//            }
+//        }
+//        $sContenu .= '</ul>';
+//        $sContenu .= '</li>';
+//        return $sContenu;
+        return $contenu;
     }
 
     /**
-     * @return string
+     * @return array|bool
      */
     protected function _getLien($bIsSeparator) {
         if($bIsSeparator) {
-            return '<li class="divider" role="separator"></li>';
+            return false;
         }
-
         $sLien = $this->router->generate($this->sUrl);
-        return '<li><a href="'.$sLien.'">' . $this->sTitle . '</a></li>';
+        return [
+            'lien' => $sLien,
+            'titre' => $this->sTitle
+        ];
+//        if($bIsSeparator) {
+//            return '<li class="divider" role="separator"></li>';
+//        }
+//
+//        $sLien = $this->router->generate($this->sUrl);
+//        return '<li><a href="'.$sLien.'">' . $this->sTitle . '</a></li>';
     }
 }
