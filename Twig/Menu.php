@@ -3,6 +3,7 @@ namespace Gosyl\CommonBundle\Twig;
 
 use Gosyl\CommonBundle\Twig\Menu\AbstractMenu;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class Menu extends \Twig_Extension {
@@ -14,9 +15,7 @@ class Menu extends \Twig_Extension {
     /**
      * @var array
      */
-    protected $aNamespaces = array(
-        "\\" . __NAMESPACE__ . "\\" . 'Menu' . "\\" => 'Common'
-    );
+    protected $aNamespaces;
 
     /**
      * @var AuthorizationChecker
@@ -49,13 +48,22 @@ class Menu extends \Twig_Extension {
     }
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Menu constructor.
+     *
      * @param Router $router
      * @param AuthorizationChecker $autorization
      */
-    public function __construct(Router $router, AuthorizationChecker $autorization) {
+    public function __construct(Router $router, AuthorizationChecker $autorization, Container $container) {
         $this->router = $router;
         $this->autorizationChecker = $autorization;
+        $this->container = $container;
+
+        $this->aNamespaces = $this->container->getParameter('menu');
     }
 
     public function getFunctions() {
@@ -93,7 +101,7 @@ class Menu extends \Twig_Extension {
 
                 }
             }
-        }//die;
+        }
 
         return $sContenu;
     }
