@@ -225,7 +225,7 @@ abstract class AbstractMenu {
                 $contenu['subMenu'][] = $this->_getLien(true);
             } else {
                 foreach ($this->aNameSpace as $namespace => $bundle) {
-                    $sClasse = $namespace . '\\' . $sousMenu;
+                    $sClasse = $namespace . $sousMenu;
                     if (class_exists($sClasse)) {
                         $oSousMenu = new $sClasse($this->router, $this->autorization, $this->aNameSpace);
                         $bSeparation = false;
