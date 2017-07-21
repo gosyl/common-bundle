@@ -363,17 +363,17 @@ Gosyl.Common.GestionUtilisateur = (function($) {
 
 
 		if (data.roles != 'ROLE_ADMIN' && !bSupprime) {
-            var colonne1 = $('<div class="col-xs-4">');
+            var colonne1 = $('<div class="col-xs-4" style="text-align: center;">');
             colonne1.html('<span class="suppressionUtilisateur fa fa-trash" data-id="' + data.id + '" title="Supprimer" style="font-size: 1.5em;"></span>');
 		}
 
         if (!bSupprime) {
-            var colonne2 = $('<div class="col-xs-4">');
+            var colonne2 = $('<div class="col-xs-4" style="text-align: center;">');
             colonne2.html('<span class="modifUtilisateur fa fa-pencil" data-id="' + data.id + '" title="Modifier" style="font-size: 1.5em;"></span>');
 		}
 
         if (data.roles != 'ROLE_ADMIN' && !bIsActualUser) {
-            var colonne3 = $('<div class="col-xs-4">');
+            var colonne3 = $('<div class="col-xs-4" style="text-align: center;">');
             var sActiveOuNon = 'active';
             var color = 'black';
 			if (!bSupprime) {
