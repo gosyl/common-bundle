@@ -79,7 +79,7 @@ class Menu extends \Twig_Extension {
             if($bundle == 'Common') {
                 foreach($this->aMenu as $classMenu) {
                     if (!in_array($classMenu, $this->aClassesLoaded)) {
-                        $oClass = $oSubMenu.$classMenu;
+                        $oClass = $oSubMenu . '\\' . $classMenu;
                         /**
                          * @var AbstractMenu $oMenu
                          */
