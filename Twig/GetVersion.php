@@ -17,7 +17,11 @@ class GetVersion extends \Twig_Extension {
     }
 
     public function getVersionFunction() {
+        if(isset($ENVIRONNEMENT) && $ENVIRONNEMENT == 'developpement') {//Récup du num de commit
+            $commitHash = trim(exec('git log --pretty="%ci" -n1 HEAD'));
 
+            return $commitHash;
+        }
     }
 
     public function getName() {
