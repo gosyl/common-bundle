@@ -76,6 +76,12 @@ services:
         tags:
             - { name: twig.extension }
 
+    twig.extension.getVersion:
+        class: Gosyl\CommonBundle\Twig\GetVersion
+        public: false
+        tags:
+            - { name: twig.extension }
+
     # Services
     gosyl.common.service.datatable:
         class: Gosyl\CommonBundle\Service\DataTable
