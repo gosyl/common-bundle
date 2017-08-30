@@ -77,7 +77,7 @@ class Menu extends \Twig_Extension {
         $contenu = [];
         foreach($this->aNamespaces as $oSubMenu => $bundle) {
             if($bundle == 'Common') {
-                foreach($this->aMenu as $classMenu) {
+                foreach($this->aMenu as $pos=>$classMenu) {
                     if (!in_array($classMenu, $this->aClassesLoaded)) {
                         $oClass = $oSubMenu . '\\' . $classMenu;
                         /**
@@ -86,15 +86,14 @@ class Menu extends \Twig_Extension {
                         $oMenu = new $oClass($this->router, $this->autorizationChecker, $this->aNamespaces);
 
                         if ($oMenu->getUrl() != $routeActuelle) {
-//                            $sContenu .= $oMenu->getLink();
-                            $contenu[] = $oMenu->getLink();
+                            $contenu[$pos] = $oMenu->getLink();
                         }
                         $this->aClassesLoaded[sizeof($contenu) - 1] = $classMenu;
                     }
                 }
             } else {
                 $oInst = new $oSubMenu();
-                foreach($oInst->aMenu as $classMenu) {
+                foreach($oInst->aMenu as $position => $classMenu) {
                     $oClass = $oSubMenu.'\\'.$classMenu;
                     /**
                      * @var AbstractMenu $oMenu
@@ -102,15 +101,14 @@ class Menu extends \Twig_Extension {
                     $oMenu = new $oClass($this->router, $this->autorizationChecker, $this->aNamespaces);
                     if (!in_array($classMenu, $this->aClassesLoaded)) {
                         if ($oMenu->getUrl() != $routeActuelle) {
-//                            $sContenu .= $oMenu->getLink();
-                            $contenu[] = $oMenu->getLink();
+                            $contenu[$position] = $oMenu->getLink();
                         }
                         $this->aClassesLoaded[sizeof($contenu) - 1] = $classMenu;
                     } else {
                         foreach($this->aClassesLoaded as $pos => $value) {
                             if($value == $classMenu) {
                                 if($oMenu->getUrl() != $routeActuelle) {
-                                    $contenu[$pos] = array_merge($contenu[$pos], $oMenu->getLink());
+                                    $contenu[$position] = array_merge($contenu[$position], $oMenu->getLink());
                                 }
                             }
                         }
@@ -118,6 +116,8 @@ class Menu extends \Twig_Extension {
                 }
             }
         }
+
+        ksort($contenu);
 
         $sContenu = '';
 
