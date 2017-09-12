@@ -6,10 +6,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
     
-    listener:
-        class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
-        tags:
-            - { name: doctrine.event_listener, event: postConnect }
+#    listener:
+#        class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
+#        tags:
+#            - { name: doctrine.event_listener, event: postConnect }
     
     # Sécurité
     app.user_checker:
