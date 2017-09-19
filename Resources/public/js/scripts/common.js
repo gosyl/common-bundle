@@ -18,8 +18,14 @@ Gosyl.Common = (function() {
 	
 	function init() {
 		initSessionStorage();
+        evtAjaxLoading();
 	}
-	
+
+	function evtAjaxLoading() {
+	    $(document).on('ajaxSend', loadingAjax)
+            .on('ajaxComplete', ajaxLoaded);
+    }
+
 	function getIdItem(item) {
 		var aItem = item.split('_');
 		
@@ -151,11 +157,13 @@ Gosyl.Common = (function() {
 		});
 	}
 	
-	function loadingAjax() {
+	function loadingAjax(e) {
+	    e.stopPropagation();
 		$('#ajaxLoading').show();
 	}
 	
-	function ajaxLoaded() {
+	function ajaxLoaded(e) {
+	    e.stopPropagation();
 		$('#ajaxLoading').hide();
 	}
 	
