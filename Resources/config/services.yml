@@ -1,4 +1,8 @@
 services:
+    #log
+    gosyl_common.formater.my_log:
+        class: Gosyl\CommonBundle\Service\MyLogFormater
+
     # Listeners
     gosyl.event.activity_listener:
         class: Gosyl\CommonBundle\Event\ActivityListener
@@ -10,7 +14,16 @@ services:
         class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
         tags:
             - { name: doctrine.event_listener, event: postConnect }
-    
+
+    #events
+    gosyl_common.event.mylogevent:
+        class: Gosyl\CommonBundle\Event\MyLogEvent
+        arguments: ["@monolog.logger.my_log", "@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: initLog }
+            - { name: kernel.event_listener, event: kernel.response, method: setResponseStatus }
+            - { name: kernel.event_listener, event: kernel.terminate, method: setLog }
+
     # Sécurité
     app.user_checker:
         class: Gosyl\CommonBundle\Security\UserChecker
