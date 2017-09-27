@@ -19,6 +19,7 @@ Gosyl.Common = (function() {
 	function init() {
 		initSessionStorage();
         evtAjaxLoading();
+        unFocusBtnAfterClick();
 	}
 
 	function evtAjaxLoading() {
@@ -222,7 +223,14 @@ Gosyl.Common = (function() {
 
 		return contenu;
 	}
-	
+
+	function unFocusBtnAfterClick() {
+        $('button.btn').on('click', function(e) {
+            e.stopPropagation();
+            $(this).blur();
+        });
+    }
+
 	return {
 		init: init,
 		getIdItem: getIdItem,
