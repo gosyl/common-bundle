@@ -62,7 +62,7 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DATE_NAISSANCE", type="date", nullable=false)
+     * @ORM\Column(name="DATE_NAISSANCE", type="datetime", nullable=false)
      */
     protected $dateNaissance;
 
