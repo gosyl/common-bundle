@@ -17,7 +17,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "ssh://git@gosyl.dtdns.net:9022/gosyl/DataTableBundle.git"
+      "url": "ssh://git@gosyl.ddns.net:9022/gosyl/DataTableBundle.git"
     }
   ]
 }
