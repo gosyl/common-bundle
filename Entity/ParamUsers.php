@@ -23,7 +23,7 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="PARAM_USERS_SEQ", allocationSize=1, initialValue=1)
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -32,14 +32,14 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @Assert\NotBlank(groups={"Inscription"}, message="Le nom d'utilisateur ne peut être vide")
      * @Assert\Length(min=3, max=255, minMessage="Le nom d'utilisateur doit au moins comporter 3 caractères", maxMessage="Le nom d'utilisateur ne peut pas comporter plus de 255 caractères")
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string
      *
      * @ORM\Column(name="PASSWORD", type="string", length=255, nullable=false)
      */
-    private $password;
+    protected $password;
 
     /**
      * @var string
@@ -48,7 +48,7 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @Assert\NotBlank(groups={"Inscription"}, message="Le nom ne peut être vide")
      * @Assert\Length(max=255, maxMessage="Le nom ne peut pas comporter plus de 255 caractères")
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -57,21 +57,21 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @Assert\NotBlank(groups={"Inscription"}, message="Le nom ne peut être vide")
      * @Assert\Length(max=255, maxMessage="Le prénom ne peut pas comporter plus de 255 caractères")
      */
-    private $prenom;
+    protected $prenom;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="DATE_NAISSANCE", type="date", nullable=false)
      */
-    private $dateNaissance;
+    protected $dateNaissance;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="DATE_INSCRIPTION", type="datetime", nullable=false)
      */
-    private $dateInscription;
+    protected $dateInscription;
 
     /**
      * @var string
@@ -81,20 +81,20 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @Assert\Email(message="Adresse e-mail incorrecte. Format attendu : abc@domaine.xyz")
      * @Assert\Length(max="255", maxMessage="Email trop long")
      */
-    private $email;
+    protected $email;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="IS_ACTIVE", type="boolean", nullable=false)
      */
-    private $isActive;
+    protected $isActive;
     
     /**
      * @var array
      * @ORM\Column(name="roles", type="array", nullable=false)
      */
-    private $roles;
+    protected $roles;
 
     /**
      * @var \DateTime
@@ -102,16 +102,16 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="DATE_SUPPRESSION", type="datetime", nullable=true)
      * @Assert\DateTime(format="d/m/Y", message="Format invalide")
      */
-    private $dateSuppression;
+    protected $dateSuppression;
     
     /**
      * @var \DateTime
      * 
      * @ORM\Column(name="LAST_ACTIVITY_AT", type="datetime", nullable=true)
      */
-    private $lastActivityAt;
+    protected $lastActivityAt;
     
-    private $salt;
+    protected $salt;
 
     public function __construct() {
     	// De base, on va attribuer au nouveau utilisateur, le rôle « ROLE_USER »
