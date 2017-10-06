@@ -1,0 +1,125 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% form_theme oFormModifUser 'GosylCommonBundle:form:fields.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+	{% javascripts
+        'bundles/gosyldatatable/js/library/Datatables/datatables.min.js'
+        'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.js'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/dataTables.responsive.min.js'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/js/responsive.bootstrap.min.js'
+		'bundles/gosylcommon/js/scripts/utilisateurs/index.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+	{% stylesheets
+        'bundles/gosyldatatable/js/library/Datatables/dataTables.bootstrap.css'
+        'bundles/gosyldatatable/js/library/Datatables/Responsive-2.1.0/css/responsive.bootstrap.min.css'
+		'bundles/gosylcommon/css/styles/utilisateurs/index.css'
+		filter='cssrewrite' %}
+		<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block title %}
+	{{ parent() }}
+	Gestion des utilisateurs
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ usersActive() }}
+            {% endif %}
+        </div>
+    </div>
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Utilisateurs',
+    contenu: datatable(aResultsAllUsers),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-lg-offset-2 col-lg-8">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+        </div>
+    </div>
+    {# Popup du formulaire #}
+    {% set aFormModifOptions = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalModifUser'
+    }
+    } %}
+
+    {{ modal('Modifier un profil', include('GosylCommonBundle:form:form_modifUser.html.twig', {form: oFormModifUser}), aFormModifOptions) }}
+
+    {# Popup Demande de suppression #}
+    {% set contentModalSuppressionUtilisateur %}
+        Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+    {% endset %}
+    {% set buttonsModalSuppressionUtilisateur = {
+    0: {
+    id: 'btnSubmitSuppr',
+    class: {
+    0: 'btn',
+    1: 'btn-danger'
+    },
+    forClose: false,
+    label: 'Oui'
+    },
+    1: {
+    id: 'btnCancelSuppr',
+    class: {
+    0: 'btn',
+    1: 'btn-default'
+    },
+    forClose: true,
+    label: 'Non'
+    }
+    } %}
+    {% set aModalSuppressionUtilisateurOptions = {
+    footer: {
+    buttons: buttonsModalSuppressionUtilisateur
+    },
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalSuppressionUtilisateur'
+    }
+    } %}
+    {{ modal('Supprimer un utilisateur', contentModalSuppressionUtilisateur, aModalSuppressionUtilisateurOptions) }}
+
+    {# Popup erreur #}
+    {% set aModalErreurOptions = {
+    options: {
+    js: {
+    backdrop: 'static',
+    show: false,
+    keyboard: false
+    },
+    id: 'modalErreur'
+    }
+    } %}
+    {{ modal('Supprimer un utilisateur', "", aModalErreurOptions) }}
+
+
+    {#
+    {{ message('errorMsg', aDialogMsgErreurRest, null, aDialogOptionsErreur) }}
+    #}
+{% endblock %}

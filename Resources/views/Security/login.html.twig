@@ -1,0 +1,37 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% block javascripts %}
+    {{ parent() }}
+	{% javascripts '@GosylCommonBundle/Resources/public/js/scripts/connexion/login.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+	{% stylesheets 'bundles/gosylcommon/css/styles/connexion/form.css' filter='cssrewrite' %}
+		<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+{% endblock %}
+
+{% block title %}
+	{{ parent() }}
+	Connexion
+{% endblock %}
+
+{% block content %}
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Connexion',
+    contenu: include('GosylCommonBundle:form:form_login.html.twig', {form: oFormLogin}),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-lg-4 col-sm-6 col-sm-offset-3 col-lg-offset-4">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

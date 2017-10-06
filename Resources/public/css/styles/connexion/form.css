@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+.ui-widget input, .ui-widget select {
+    font-size: 12.13333px !important;
+    font-weight:normal !important;
+}
+
+.ui-widget button, .ui-widget input[type="submit"] {
+	font-size: 0.85em !important;
+}
+
+.ui-widget fieldset {
+	font-size: 16px;
+	font-family: serif;
+}
+
+.ui-dialog[aria-describedby=dialogConnexion], .ui-dialog[aria-describedby=dialogInscription] {
+	background: none;
+	border: 0;
+}

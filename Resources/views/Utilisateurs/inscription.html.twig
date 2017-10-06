@@ -1,0 +1,49 @@
+{% extends "GosylCommonBundle::layout.html.twig" %}
+
+{% form_theme oFormInscription 'GosylCommonBundle:form:fields.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/js/bootstrap-datepicker.min.js'
+    '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/locales/bootstrap-datepicker.fr.min.js'
+    '@GosylCommonBundle/Resources/public/js/scripts/utilisateurs/inscription.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@GosylCommonBundle/Resources/public/js/library/bootstrap-datepicker/css/bootstrap-datepicker3.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title %}
+	{{ parent() }}
+	Inscription
+{% endblock %}
+
+{% block content %}
+    {#
+    {% if messageInscriptionOk == true %}
+        {{ message(msg) }}
+    {% else %}
+        {{ message(null, form_start(oFormInscription) ~ form_widget(oFormInscription) ~ form_end(oFormInscription), null, aDialogInscription) }}
+    {% endif %}
+    #}
+    {% set aMessageOptions = {
+    typePanel: constant("Gosyl\\CommonBundle\\Constantes::PANEL_PRIMARY"),
+    showHeader: true,
+    title: 'Inscription',
+    contenu: include('GosylCommonBundle:form:form_inscription.html.twig', {form: oFormInscription}),
+    showFooter: false
+    } %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-lg-4 col-sm-6 col-sm-offset-3 col-lg-offset-4">
+                {{ include('GosylCommonBundle::message.html.twig', aMessageOptions) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

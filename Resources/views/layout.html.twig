@@ -1,0 +1,137 @@
+<!Doctype html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %}{{ pretty_project_name }} - {% endblock %}</title>
+    {% if logo is not defined %} {# logo est parametrer dans twig -> globals #}
+        {% set logo = 'bundles/gosylcommon/images/rebel.png' %}
+    {% endif %}
+    {% image %}
+        <link rel="icon" href="{{ asset(logo) }}">
+    {% endimage %}
+
+    {% block stylesheets %}
+        {% stylesheets
+            'bundles/gosylcommon/js/library/jquery-ui/jquery-ui.css'
+            'bundles/gosylcommon/css/library/bootstrap/css/bootstrap.css'
+            'bundles/gosylcommon/css/library/font-awesome/css/font-awesome.min.css'
+            'bundles/gosylcommon/css/styles/style.css'
+        filter='cssrewrite' %}
+        {#
+
+        #}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+
+
+    {% block jsGlobalVars %}{% endblock %}
+    {% block javascripts %}
+        {% javascripts
+        'bundles/gosylcommon/js/library/jquery-3.1.1.min.js'
+        'bundles/gosylcommon/js/library/jquery-ui/jquery-ui.min.js'
+        'bundles/gosylcommon/js/library/jqueryui-bootstrap-adapter.js'
+        'bundles/gosylcommon/css/library/bootstrap/js/bootstrap.js'
+        'bundles/gosylcommon/js/scripts/common.js'
+        'bundles/gosylcommon/js/scripts/templating/bootstrap_templating.js' %}
+        {#
+
+        #}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script type="text/javascript">
+            if (typeof Gosyl === 'undefined') {
+                Gosyl = {};
+            }
+
+            if (typeof Gosyl.Common === 'undefined') {
+                Gosyl.Common = {};
+            }
+
+            Gosyl.Common.basePath = '/bundles/gosylcommon';
+            Gosyl.Common.rootPath = '{{ path('gosyl_homepage') }}';
+            Gosyl.Common.commonPath = '{{ path('gosyl_homepage') }}' + 'common/';
+        </script>
+    {% endblock %}
+</head>
+<body>
+<div id="ajaxLoading" class="cache">
+    {% image 'bundles/gosylcommon/images/ajax-loader.gif' %}
+	<img src="{{ asset_url }}">
+    {% endimage %}
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('gosyl_homepage') }}">
+                        <span class="fa fa-rebel fa-2x" style="color: white;"></span>{{ block('title') }}
+                    </a>
+                </div>
+                {% set routeActuelle = app.request.attributes.get('_route') %}
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        {{ menu(routeActuelle) }}
+                    </ul>
+                    <div class="navbar-right navbar-text">
+                        {{ getVersion() }}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {% include 'GosylCommonBundle::alert.html.twig' %}
+        </div>
+    </div>
+    {#<div class="col-xs-12">#}
+        {% block content %}
+        {% endblock %}
+    {#</div>#}
+</div>
+{#
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+            <a class="navbar-brand" href="{{ path('gosyl_homepage') }}">
+                {{ block('title') }}
+			</a>
+		</div>
+        {% set routeActuelle = app.request.attributes.get('_route') %}
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+                {{ menu(routeActuelle) }}
+            </ul>
+        </div>
+	</div>
+</nav>
+{#<header>
+    {{ block('title') }} - {{ "now" | date('d/m/Y H:i:s') }} GMT {{ "now" | date('P') }}
+</header>#}
+{#
+<article>
+    {% block content %}{% endblock %}
+</article>
+#}
+{% block specialContent %}{% endblock %}
+
+</body>
+</html>

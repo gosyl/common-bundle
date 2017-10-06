@@ -1,0 +1,109 @@
+services:
+    #log
+    gosyl_common.formater.my_log:
+        class: Gosyl\CommonBundle\Service\MyLogFormater
+
+    # Listeners
+    gosyl.event.activity_listener:
+        class: Gosyl\CommonBundle\Event\ActivityListener
+        arguments: ["@doctrine.orm.entity_manager", "@service_container", "@security.token_storage"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
+    
+    listener:
+        class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
+        tags:
+            - { name: doctrine.event_listener, event: postConnect }
+
+    #events
+    gosyl_common.event.mylogevent:
+        class: Gosyl\CommonBundle\Event\MyLogEvent
+        arguments: ["@monolog.logger.my_log", "@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: initLog }
+            - { name: kernel.event_listener, event: kernel.response, method: setResponseStatus }
+            - { name: kernel.event_listener, event: kernel.terminate, method: setLog }
+
+    # Sécurité
+    app.user_checker:
+        class: Gosyl\CommonBundle\Security\UserChecker
+    
+    #Formulaires
+    gosyl.form.login:
+        class: Gosyl\CommonBundle\Form\LoginType
+        tags:
+            - { name: form.type, alias: gosyl_user_login }  
+    
+    gosyl.form.registration:
+        class: Gosyl\CommonBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: gosyl_user_registration }
+            
+    gosyl.form.profile:
+        class: Gosyl\CommonBundle\Form\UserUpdateType
+        tags:
+            - { name: form.type, alias: gosyl_user_profile }
+    
+    # Extensions Twig
+    #twig.extension.datatable:
+    #    class: Gosyl\CommonBundle\Twig\Datatable
+    #    public: false
+    #    tags:
+    #        - { name: twig.extension }
+    
+    twig.extension.menu:
+        class: Gosyl\CommonBundle\Twig\Menu
+        public: false
+        arguments: ['@router', '@security.authorization_checker', '@service_container']
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.message:
+        class: Gosyl\CommonBundle\Twig\Message
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.modal:
+            class: Gosyl\CommonBundle\Twig\Modal
+            public: false
+            tags:
+                - { name: twig.extension }
+            
+    twig.extension.afficheForm:
+        class: Gosyl\CommonBundle\Twig\AfficheForm
+        public: false
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.fieldset:
+        class: Gosyl\CommonBundle\Twig\Fieldset
+        public: false
+        tags:
+            - { name: twig.extension }
+            
+    twig.extension.usersActive:
+        class: Gosyl\CommonBundle\Twig\UsersActive
+        public: false
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.getVersion:
+        class: Gosyl\CommonBundle\Twig\GetVersion
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    # Services
+    gosyl.common.service.datatable:
+        class: Gosyl\CommonBundle\Service\DataTable
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+        
+    gosyl.common.service.mail:
+        class: Gosyl\CommonBundle\Service\Mail
+        arguments: ["@swiftmailer.mailer.default", "@service_container"]
+        
+    gosyl.common.service.user:
+        class: Gosyl\CommonBundle\Service\Users
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]

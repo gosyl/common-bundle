@@ -1,0 +1,33 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% set bAction = form.vars.value.action is defined %}
+<div class="col-xs-12">
+    <form method="{{ form.vars.method }}" action="{{ bAction ? form.vars.value.action : form.vars.action }}"
+          id="{{ form.vars.id }}" name="{{ form.vars.id }}"
+          class="{{ form.vars.formClass is defined ? form.vars.formClass : '' }}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {{- form_label(form.children._username) -}}
+                    {{- form_widget(form.children._username) -}}
+                    <div class="formError">{{ form_errors(form.children._username) }}</div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    {{- form_label(form.children._password) -}}
+                    {{- form_widget(form.children._password) -}}
+                    <div class="formError">{{ form_errors(form.children._password) }}</div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    {{- form_label(form.children._remember_me) -}}
+                    {{- form_widget(form.children._remember_me) -}}
+                    <div class="formError">{{ form_errors(form.children._remember_me) }}</div>
+                </div>
+                <div class="col-xs-12 form-group">
+                    {{- form_widget(form.children.sendFormLogin) -}}
+                    <div style="display: inline-block; width: 15px"></div>
+                    {{- form_widget(form.children.btnCancel) -}}
+                </div>
+                {{ form_rest(form) }}
+            </div>
+        </div>
+    </form>
+</div>

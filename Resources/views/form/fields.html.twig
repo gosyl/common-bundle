@@ -1,0 +1,66 @@
+{# app/Resources/views/form/fields.html.twig #}
+
+{% block form_start %}
+
+{% set bAction = form.vars.value.action is defined %}
+
+{#{{dump(form.vars)}}#}
+	<fieldset id="fieldset_{{form.vars.id}}" class="{{ form.vars.fieldsetClass is defined ? form.vars.fieldsetClass : '' }}">
+	<legend>{{form.vars.legend}}</legend>
+	<form method="{{form.vars.method}}" action="{{ bAction ? form.vars.value.action : form.vars.action }}" id="{{form.vars.id}}" name="{{form.vars.id}}">
+{% endblock %}
+
+{% block form_row %}
+	{#{{dump(form)}}#}
+	<div id="{{form.vars.id}}_element">
+	    {{ form_label(form) }}
+	    {{ form_errors(form) }}
+	    {{ form_widget(form) }}
+	</div>
+	<div class="espace">&nbsp;</div>
+{% endblock form_row %}
+
+{%- block form_widget_compound -%}
+    {#<div {{ block('widget_container_attributes') }}>#}
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    {#</div>#}
+{%- endblock form_widget_compound -%}
+
+{% block button_row %}
+
+{{- form_widget(form) -}}
+
+{% endblock %}
+
+{% block form_end %}
+	</form>
+	</fieldset>	
+{% endblock %}
+
+{% block form_label %}
+    {% if not compound %}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {% endif %}
+
+    {% if required %}
+        {% set label_attr = label_attr|merge({
+            'class': (label_attr.class|default('') ~ ' required')|trim
+        }) %}
+    {% endif %}
+
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+
+    <label
+        {% for attrname, attrvalue in label_attr -%}
+            {{ attrname }}="{{ attrvalue }}"
+        {%- endfor %}
+    >
+        {{ label|trans({}, translation_domain) }} : 
+    </label>
+{% endblock form_label %}

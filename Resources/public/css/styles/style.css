@@ -1,0 +1,145 @@
+@CHARSET "UTF-8";
+
+body {
+    background-color: #1a1d26;
+}
+
+header {
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        border-radius: 0;
+    }
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+.fa-rebel:before {
+    vertical-align: middle;
+}
+
+.dropdown-menu {
+    background-color: black;
+}
+
+.dropdown-menu > li > a {
+    color: white;
+}
+
+.userAdmin {
+    color: orange;
+}
+
+/* Panel */
+.panel {
+    background-color: #dcdcdc;
+}
+
+.panel-primary, .panel-default {
+    border: 2px solid #046380;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #c4d7ed;
+    border-color: #046380;
+    color: black;
+}
+
+.panel-default > .panel-heading {
+    border-color: #046380;
+}
+
+.panel-footer {
+    border-color: #046380;
+}
+
+/* Formulaires */
+.formError {
+    color: red;
+}
+
+.form-control {
+    border-color: #046380;
+    background-color: #fff5ef;
+}
+
+/* Boutons */
+.btn-default, .btn-default:hover, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default, .btn-default:focus, .btn-default.focus {
+    color: #046380 !important;
+    border: 1px solid #046380 !important;
+}
+
+/* Datepicker */
+.datepicker.dropdown-menu {
+    background-color: #dcdcdc;
+    border: 1px solid #046380;
+}
+
+.datepicker > .datepicker-days > table > thead > tr:nth-child(2) {
+    border-bottom: 1px solid #046380;
+}
+
+.datepicker > .datepicker-days > table > tfoot {
+    border-top: 1px solid #046380;
+}
+
+.table-bordered {
+    border: 1px solid #a1a1a1;
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+    border: 1px solid #a1a1a1;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+    background-color: #c4d7ed;
+    border-color: #046380;
+    color: #046380;
+    cursor: default;
+    z-index: 3;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover {
+    background-color: #fff;
+    border-color: #046380;
+    color: #046380;
+    cursor: not-allowed;
+}
+
+/* Chargement Ajax */
+.cache {
+    display: none;
+}
+
+#ajaxLoading {
+    background-color: rgba(0,0,0,0.65);
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+    text-align: center;
+    width: 100%
+}
+
+#ajaxLoading img {
+    top: calc(100vh / 2);
+    position: absolute;
+}
