@@ -11,7 +11,7 @@ use Gosyl\FileserverBundle\Entity\FpDeleted;
 /**
  * @author lippmann
  * 
- * @ORM\Table(name="PARAM_USERS", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"USERNAME"})})
+ * @ORM\Table(name="common.PARAM_USERS", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"USERNAME"})})
  * @ORM\Entity(repositoryClass="Gosyl\CommonBundle\Entity\ParamUsersRepository")
  */
 class ParamUsers implements AdvancedUserInterface, \Serializable {
