@@ -11,7 +11,7 @@ use Gosyl\FileserverBundle\Entity\FpDeleted;
 /**
  * @author lippmann
  * 
- * @ORM\Table(name="PARAM_USERS", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"USERNAME"})})
+ * @ORM\Table(name="common.PARAM_USERS", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"USERNAME"})})
  * @ORM\Entity(repositoryClass="Gosyl\CommonBundle\Entity\ParamUsersRepository")
  */
 class ParamUsers implements AdvancedUserInterface, \Serializable {
@@ -21,7 +21,7 @@ class ParamUsers implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="PARAM_USERS_SEQ", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="common.PARAM_USERS_SEQ", allocationSize=1, initialValue=1)
      */
     protected $id;
 
