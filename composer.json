@@ -13,11 +13,5 @@
     "psr-4": {
       "Gosyl\\CommonBundle\\": ""
     }
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "ssh://git@gosyl.ddns.net:9022/gosyl/datatable_bundle.git"
-    }
-  ]
+  }
 }
