@@ -92,6 +92,7 @@ services:
     twig.extension.getVersion:
         class: Gosyl\CommonBundle\Twig\GetVersion
         public: false
+        arguments: ["%kernel.environment%"]
         tags:
             - { name: twig.extension }
 

@@ -10,6 +10,15 @@ namespace Gosyl\CommonBundle\Twig;
 
 
 class GetVersion extends \Twig_Extension {
+    /**
+     * @var string
+     */
+    protected $env;
+
+    public function __construct($env) {
+        $this->env = $env;
+    }
+
     public function getFunctions() {
         return array(
             new \Twig_SimpleFunction('getVersion', array($this, 'getVersionFunction'), array('is_safe' => array('html')))
@@ -17,7 +26,7 @@ class GetVersion extends \Twig_Extension {
     }
 
     public function getVersionFunction() {
-        if(defined('ENVIRONNEMENT') && ENVIRONNEMENT == 'developpement') {//Récup du num de commit
+        if($this->env == 'env') {//Récup du num de commit
             $commitHash = 'Commit : ' . trim(exec('git rev-parse --abbrev-ref HEAD')) . '-' . trim(exec('git log --pretty="%h" -n1 HEAD')) . '-dev';
         } else {
             $commitHash = trim(exec('git describe origin/master  --tags --abbrev=0'));
