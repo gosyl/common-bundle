@@ -42,13 +42,13 @@ Gosyl.Common.Login = (function($) {
 		
 		while(!$('#dialogConnexion').dialog('isOpen')) {
 			$('#btnConnexionUser').trigger('click');
-		}
+		}*/
 		
 		btnInscriptionFromLogin = function() {
-			document.location = 'register';
+			document.location = Gosyl.Common.commonPath + 'register';
 		};
 		
-		$('#btnClose').click(function(e) {
+		/*$('#btnClose').click(function(e) {
 			e.preventDefault();
 			
 			$('#dialogConnexion').dialog('close');

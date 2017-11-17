@@ -36,8 +36,8 @@ class LoginType extends AbstractType {
         		->add('_password', PasswordType::class, array('label' => 'Mot de passe'))
         		->add('_remember_me', CheckboxType::class,array('label' => 'Se souvenir de moi', 'required' => false))
         		->add('sendFormLogin', SubmitType::class, array('label' => 'Connexion'))
-            //->add('btnInscription', ButtonType::class, array('label' => 'Inscription', 'attr' => array('onclick' => 'javascript: btnInscriptionFromLogin();')))
-            ->add('btnCancel', ResetType::class, array('label' => 'Annuler', 'attr' => array('id' => 'btnCancel')))
+                ->add('btnInscription', ButtonType::class, array('label' => 'Inscription', 'attr' => array('onclick' => 'javascript: btnInscriptionFromLogin();')))
+                ->add('btnCancel', ResetType::class, array('label' => 'Annuler', 'attr' => array('id' => 'btnCancel')))
         ;
 		
         $this->_builder = $builder;
